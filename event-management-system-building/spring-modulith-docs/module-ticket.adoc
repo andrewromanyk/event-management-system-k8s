@@ -1,0 +1,9 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`ua.edu.ukma.event_management_micro.ticket`
+|Bean references
+|* `u.e.u.e.u.api.UserApi` (in User)
+* `u.e.u.e.e.api.EventApi` (in Event)
+* `u.e.u.e.b.api.BuildingApi` (in Building)
+|===

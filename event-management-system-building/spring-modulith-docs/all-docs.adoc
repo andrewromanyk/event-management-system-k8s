@@ -1,0 +1,27 @@
+== EventManagementMicroApplication
+plantuml::components.puml[,,format=svg]
+
+== Core
+plantuml::module-core.puml[,,format=svg]
+include::module-core.adoc[]
+
+== Building
+plantuml::module-building.puml[,,format=svg]
+include::module-building.adoc[]
+
+== Logger
+plantuml::module-logger.puml[,,format=svg]
+include::module-logger.adoc[]
+
+== User
+plantuml::module-user.puml[,,format=svg]
+include::module-user.adoc[]
+
+== Event
+plantuml::module-event.puml[,,format=svg]
+include::module-event.adoc[]
+
+== Ticket
+plantuml::module-ticket.puml[,,format=svg]
+include::module-ticket.adoc[]
+

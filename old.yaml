@@ -1,0 +1,93 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: db
+#   labels:
+#     app: db
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: db
+#   template:
+#     metadata:
+#       labels:
+#         app: db
+#     spec:
+#       containers:
+#       - name: db
+#         image: postgres:latest
+#         ports:
+#         - containerPort: 5432
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: spring-modules-deploy-1
+#   labels:
+#     app: spring-micro-1
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: spring-micro-1
+#   template:
+#     metadata:
+#       labels:
+#         app: spring-micro-1
+#     spec:
+#       containers:
+#       - name: spring-micro
+#         image: andrewromanyk/spring-micro-1:latest
+#         ports:
+#         - containerPort: 8080
+#         env:
+#         - name: SPRING_DATASOURCE_URL
+#           value: "jdbc:postgresql://db:5432/mydb"
+#         - name: SPRING_DATASOURCE_USERNAME
+#           value: "user"
+#         - name: SPRING_DATASOURCE_PASSWORD
+#           value: "password"
+#         - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+#           value: "org.postgresql.Driver"
+#         - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+#           value: "org.hibernate.dialect.PostgreSQLDialect"
+#         - name: SPRING_SQL_INIT_PLATFORM
+#           value: "postgresql"
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: spring-modules-deploy-2
+#   labels:
+#     app: spring-micro-2
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: spring-micro-2
+#   template:
+#     metadata:
+#       labels:
+#         app: spring-micro-2
+#     spec:
+#       containers:
+#       - name: spring-micro
+#         image: andrewromanyk/spring-micro-2:latest
+#         ports:
+#         - containerPort: 8082
+#         env:
+#         - name: SPRING_DATASOURCE_URL
+#           value: "jdbc:postgresql://db:5432/mydb"
+#         - name: SPRING_DATASOURCE_USERNAME
+#           value: "user"
+#         - name: SPRING_DATASOURCE_PASSWORD
+#           value: "password"
+#         - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+#           value: "org.postgresql.Driver"
+#         - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+#           value: "org.hibernate.dialect.PostgreSQLDialect"
+#         - name: SPRING_SQL_INIT_PLATFORM
+#           value: "postgresql"
+#         - name: BUILDING_SERVICE_URL
+#           value: "http://spring-micro-1:8080"

@@ -1,0 +1,11 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`ua.edu.ukma.event_management_micro.logger`
+|Spring components
+|_Event listeners_
+
+* `u.e.u.e.l.MessageLogger`
+|Events listened to
+|* `u.e.u.e.c.LogEvent` (async) 
+|===

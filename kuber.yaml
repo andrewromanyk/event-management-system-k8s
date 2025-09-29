@@ -1,0 +1,134 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    app: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: db
+        image: postgres:latest
+        env:
+        - name: POSTGRES_DB
+          value: "mydb"
+        - name: POSTGRES_USER
+          value: "user"
+        - name: POSTGRES_PASSWORD
+          value: "password"
+        ports:
+        - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+spec:
+  selector:
+    app: db
+  ports:
+  - port: 5432
+    targetPort: 5432
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-modules-deploy-1
+  labels:
+    app: spring-micro-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-micro-1
+  template:
+    metadata:
+      labels:
+        app: spring-micro-1
+    spec:
+      containers:
+      - name: spring-micro
+        image: andrewromanyk/spring-micro-1:1.0.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://db:5432/mydb"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "user"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "password"
+        - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+          value: "org.postgresql.Driver"
+        - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+          value: "org.hibernate.dialect.PostgreSQLDialect"
+        - name: SPRING_SQL_INIT_PLATFORM
+          value: "postgresql"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-micro-1
+spec:
+  selector:
+    app: spring-micro-1
+  ports:
+  - port: 8081
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-modules-deploy-2
+  labels:
+    app: spring-micro-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-micro-2
+  template:
+    metadata:
+      labels:
+        app: spring-micro-2
+    spec:
+      containers:
+      - name: spring-micro
+        image: andrewromanyk/spring-micro-2:1.0.0
+        ports:
+        - containerPort: 8082
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://db:5432/mydb"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "user"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "password"
+        - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+          value: "org.postgresql.Driver"
+        - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+          value: "org.hibernate.dialect.PostgreSQLDialect"
+        - name: SPRING_SQL_INIT_PLATFORM
+          value: "postgresql"
+        - name: BUILDING_SERVICE_URL
+          value: "http://spring-micro-1:8080"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-micro-2
+spec:
+  selector:
+    app: spring-micro-2
+  ports:
+  - port: 8080
+    targetPort: 8082

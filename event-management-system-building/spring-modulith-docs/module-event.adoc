@@ -1,0 +1,10 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`ua.edu.ukma.event_management_micro.event`
+|Spring components
+|* `u.e.u.e.e.api.EventApi` (via `u.e.u.e.e.api.EventApiIml`)
+|Bean references
+|* `u.e.u.e.b.api.BuildingApi` (in Building)
+* `u.e.u.e.u.api.UserApi` (in User)
+|===

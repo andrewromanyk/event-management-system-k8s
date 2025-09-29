@@ -1,0 +1,25 @@
+@startuml
+set separator none
+title Event
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Component>
+
+Container_Boundary("EventManagementMicroApplication.EventManagementMicroApplication_boundary", "EventManagementMicroApplication", $tags="") {
+  Component(EventManagementMicroApplication.EventManagementMicroApplication.Core, "Core", $techn="Module", $descr="", $tags="", $link="")
+  Component(EventManagementMicroApplication.EventManagementMicroApplication.Building, "Building", $techn="Module", $descr="", $tags="", $link="")
+  Component(EventManagementMicroApplication.EventManagementMicroApplication.User, "User", $techn="Module", $descr="", $tags="", $link="")
+  Component(EventManagementMicroApplication.EventManagementMicroApplication.Event, "Event", $techn="Module", $descr="", $tags="", $link="")
+}
+
+Rel(EventManagementMicroApplication.EventManagementMicroApplication.Event, EventManagementMicroApplication.EventManagementMicroApplication.Core, "depends on", $techn="", $tags="", $link="")
+Rel(EventManagementMicroApplication.EventManagementMicroApplication.Event, EventManagementMicroApplication.EventManagementMicroApplication.Building, "uses", $techn="", $tags="", $link="")
+Rel(EventManagementMicroApplication.EventManagementMicroApplication.Event, EventManagementMicroApplication.EventManagementMicroApplication.User, "uses", $techn="", $tags="", $link="")
+Rel(EventManagementMicroApplication.EventManagementMicroApplication.User, EventManagementMicroApplication.EventManagementMicroApplication.Core, "depends on", $techn="", $tags="", $link="")
+Rel(EventManagementMicroApplication.EventManagementMicroApplication.Building, EventManagementMicroApplication.EventManagementMicroApplication.Core, "depends on", $techn="", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml
