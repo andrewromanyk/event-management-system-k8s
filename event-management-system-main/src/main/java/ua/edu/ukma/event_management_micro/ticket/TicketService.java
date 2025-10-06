@@ -19,7 +19,7 @@ import java.util.Optional;
 
 
 @Service
-public class TicketService {
+public class    TicketService {
 
     private ModelMapper modelMapper;
     private UserApi userInterface;
