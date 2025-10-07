@@ -42,7 +42,13 @@ public class EventControllerApi {
 
     @PostMapping
     public ResponseEntity<String> createNewEvent(@RequestBody EventDto eventDto){
-        eventService.createEvent(eventDto);
+        System.out.println("inside CREATE NEW EVENT");
+        try {
+            eventService.createEvent(eventDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return ResponseEntity.ok("Event created");
     }
 
