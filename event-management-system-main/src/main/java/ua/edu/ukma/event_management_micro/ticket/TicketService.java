@@ -1,14 +1,15 @@
 package ua.edu.ukma.event_management_micro.ticket;
 
-import org.apache.catalina.core.ApplicationContext;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ua.edu.ukma.event_management_micro.core.BuildingDto;
+import ua.edu.ukma.event_management_micro.core.CoreService;
 import ua.edu.ukma.event_management_micro.core.LogEvent;
 import ua.edu.ukma.event_management_micro.event.api.EventApi;
 import ua.edu.ukma.event_management_micro.user.api.UserApi;
@@ -26,7 +27,7 @@ public class    TicketService {
     private EventApi eventApi;
     private TicketRepository ticketRepository;
     private ApplicationEventPublisher applicationEventPublisher;
-    private RestTemplate restTemplate;
+    private CoreService coreService;
 
     @Value("${building.service.url}")
     private String buildingServiceUrl;
@@ -37,8 +38,8 @@ public class    TicketService {
     }
 
     @Autowired
-    public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public void setCoreService(CoreService coreService) {
+        this.coreService = coreService;
     }
 
     @Autowired
@@ -117,12 +118,11 @@ public class    TicketService {
 
     public int buildingCapacity(long buildingId) {
         try {
-            ResponseEntity<BuildingDto> response = restTemplate.getForEntity(
-                    buildingServiceUrl + "/api/building/" + buildingId,
-                    BuildingDto.class
-            );
-            return response.getBody().getCapacity();
-        } catch (Exception e) {
+            return coreService
+                    .callWithRetry(5, buildingServiceUrl + "/api/building/" + buildingId, HttpMethod.GET, BuildingDto.class)
+                    .getBody()
+                    .getCapacity();
+        } catch (Exception _) {
             return 0;
         }
     }

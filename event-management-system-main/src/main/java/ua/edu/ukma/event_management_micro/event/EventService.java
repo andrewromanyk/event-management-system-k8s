@@ -3,11 +3,14 @@ package ua.edu.ukma.event_management_micro.event;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ua.edu.ukma.event_management_micro.core.BuildingDto;
+import ua.edu.ukma.event_management_micro.core.CoreService;
 import ua.edu.ukma.event_management_micro.core.LogEvent;
 import ua.edu.ukma.event_management_micro.user.api.UserApi;
 
@@ -23,7 +26,7 @@ public class EventService {
     private final EventRepository eventRepository;
     private final UserApi userApi;
     private ApplicationEventPublisher applicationEventPublisher;
-    private RestTemplate restTemplate;
+    private CoreService coreService;
 
     @Value("${building.service.url}")
     private String buildingServiceUrl;
@@ -36,11 +39,11 @@ public class EventService {
 
     @Autowired
     public EventService(ModelMapper modelMapper, EventRepository eventRepository,
-                        UserApi userApi, RestTemplate restTemplate) {
+                        UserApi userApi, CoreService coreService) {
         this.modelMapper = modelMapper;
         this.eventRepository = eventRepository;
         this.userApi = userApi;
-        this.restTemplate = restTemplate;
+        this.coreService = coreService;
     }
 
     public List<EventDto> getAllEvents(){
@@ -150,12 +153,11 @@ public class EventService {
 
     private boolean buildingExists(long buildingId) {
         try {
-            ResponseEntity<BuildingDto> response = restTemplate.getForEntity(
-                    buildingServiceUrl + "/api/building/" + buildingId,
-                    BuildingDto.class
-            );
-            return response.getStatusCode().is2xxSuccessful();
-        } catch (Exception e) {
+            return coreService
+                    .callWithRetry(5, buildingServiceUrl + "/api/building/" + buildingId, HttpMethod.GET, BuildingDto.class)
+                    .getStatusCode()
+                    .is2xxSuccessful();
+        } catch (Exception _) {
             return false;
         }
     }

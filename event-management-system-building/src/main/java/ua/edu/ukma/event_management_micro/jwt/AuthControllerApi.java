@@ -33,7 +33,7 @@ public class AuthControllerApi {
 		}
 
 		return ResponseEntity
-				.status(HttpStatus.FOUND)
+				.status(HttpStatus.ACCEPTED)
 				.body(jwtService.generateToken("api"));
 	}
 

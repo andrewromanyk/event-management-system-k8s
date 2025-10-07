@@ -1,0 +1,80 @@
+package ua.edu.ukma.event_management_micro.core;
+
+
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.concurrent.Callable;
+
+@Service
+public class CoreService {
+
+    @Setter
+    private String JwtToken;
+    private RestTemplate restTemplate;
+
+    @Value("${secret.name}")
+    private String name;
+    @Value("${secret.pass}")
+    private String pass;
+
+    @Autowired
+    public CoreService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    public CoreService() {}
+
+    public <T> ResponseEntity<T> callWithRetry(int retries, String endPoint, HttpMethod method, Class<T> responseType) throws Exception {
+        return retryCall(retries, () -> callWithToken(endPoint, method, responseType));
+    }
+
+    private void requestJwtToken() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername(name);
+        loginRequest.setPassword(pass);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/api-login", loginRequest, String.class);
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            this.JwtToken = response.getBody();
+        } else {
+            throw new RuntimeException("Failed to get JWT token");
+        }
+    }
+
+    public <T> T retryCall(int retries, Callable<T> callable) throws Exception {
+        Exception lastException = null;
+        for (int attempt = 1; attempt <= retries; attempt++) {
+            try {
+                return callable.call();
+            } catch (Exception e) {
+                lastException = e;
+                requestJwtToken();
+            }
+        }
+        assert lastException != null; // should never happen
+        throw lastException;
+    }
+
+
+    public <T> ResponseEntity<T> callWithToken(String endPoint, HttpMethod method, Class<T> responseType) throws RestClientException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + JwtToken);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        return restTemplate.exchange(
+                endPoint,
+                method,
+                entity,
+                responseType
+        );
+    }
+
+}
