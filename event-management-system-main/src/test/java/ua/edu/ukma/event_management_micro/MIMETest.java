@@ -29,21 +29,10 @@ public class MIMETest {
 
     @Test
     public void testGetUserJson() throws Exception {
-        JSONObject user = new JSONObject();
-
-        user.put("userRole", "USER");
-        user.put("username", "O_0lenka");
-        user.put("firstName", "Olena");
-        user.put("lastName", "Petrenko");
-        user.put("email", "olena.petrenko@example.com");
-        user.put("password", "SecurePass123");
-        user.put("phoneNumber", "+380931112233");
-        user.put("dateOfBirth", "1990-05-14");
-
 
         MvcResult result = this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(user.toString()))
+                .content(this.createUser().toString()))
                 .andExpect(status().isCreated())
                 .andReturn();
 
@@ -59,20 +48,10 @@ public class MIMETest {
 
     @Test
     public void testGetUserHTML() throws Exception {
-        JSONObject user = new JSONObject();
-
-        user.put("userRole", "USER");
-        user.put("username", "O_0lenka");
-        user.put("firstName", "Olena");
-        user.put("lastName", "Petrenko");
-        user.put("email", "olena.petrenko@example.com");
-        user.put("password", "SecurePass123");
-        user.put("phoneNumber", "+380931112233");
-        user.put("dateOfBirth", "1990-05-14");
 
         MvcResult result = this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(user.toString()))
+                .content(this.createUser().toString()))
                 .andExpect(status().isCreated())
                 .andReturn();
 
@@ -84,6 +63,20 @@ public class MIMETest {
                 .andDo(print())
                 .andExpect(content().contentType(MediaType.TEXT_HTML))
                 .andExpect(status().isOk());
+    }
+
+    private JSONObject createUser() throws Exception {
+        JSONObject user = new JSONObject();
+
+        user.put("userRole", "USER");
+        user.put("username", "O_0lenka");
+        user.put("firstName", "Olena");
+        user.put("lastName", "Petrenko");
+        user.put("email", "olena.petrenko@example.com");
+        user.put("password", "SecurePass123");
+        user.put("phoneNumber", "+380931112233");
+        user.put("dateOfBirth", "1990-05-14");
+        return user;
     }
 
     private String injectPathSegment(String location, String segment) {
