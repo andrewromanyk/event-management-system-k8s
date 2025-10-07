@@ -79,7 +79,6 @@ public class UserControllerApi {
     }
 
     @PostMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<?> createNewUser(@RequestBody UserDto userDto, BindingResult bindingResult) {
@@ -92,7 +91,7 @@ public class UserControllerApi {
         }
         UserDto created = userService.createUser(userDto);
         URI location = URI.create("api/user/" + created.getId());
-        return ResponseEntity.created(location).body(created);
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

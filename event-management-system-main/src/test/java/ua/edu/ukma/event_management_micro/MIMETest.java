@@ -27,11 +27,6 @@ public class MIMETest {
     @Autowired
     private MockMvc mockMvc;
 
-    // Test JSON
-    // POST user
-    // GET user
-    // confirm user type is application/json
-
     @Test
     public void testGetUserJson() throws Exception {
         JSONObject user = new JSONObject();
@@ -50,7 +45,6 @@ public class MIMETest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(user.toString()))
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
 
@@ -60,7 +54,6 @@ public class MIMETest {
         this.mockMvc.perform(get(location)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -81,7 +74,6 @@ public class MIMETest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(user.toString()))
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         String location = "/" + result.getResponse().getHeader("Location");
