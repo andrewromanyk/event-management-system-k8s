@@ -118,9 +118,9 @@ public class    TicketService {
 
     public int buildingCapacity(long buildingId) {
         try {
-            return coreService
-                    .callWithRetry(5, buildingServiceUrl + "/api/building/" + buildingId, HttpMethod.GET, BuildingDto.class)
-                    .getBody()
+            return ((BuildingDto) coreService
+                    .callWithToken(buildingServiceUrl + "/api/building/" + buildingId, HttpMethod.GET, BuildingDto.class)
+                    .getBody())
                     .getCapacity();
         } catch (Exception _) {
             return 0;

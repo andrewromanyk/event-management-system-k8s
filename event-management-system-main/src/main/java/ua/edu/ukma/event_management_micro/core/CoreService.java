@@ -8,6 +8,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -33,9 +36,9 @@ public class CoreService {
 
     public CoreService() {}
 
-    public <T> ResponseEntity<T> callWithRetry(int retries, String endPoint, HttpMethod method, Class<T> responseType) throws Exception {
-        return retryCall(retries, () -> callWithToken(endPoint, method, responseType));
-    }
+//    public <T> ResponseEntity<T> callWithRetry(int retries, String endPoint, HttpMethod method, Class<T> responseType) throws Exception {
+//        return retryCall(retries, () -> callWithToken(endPoint, method, responseType));
+//    }
 
     private void requestJwtToken() {
         LoginRequest loginRequest = new LoginRequest();
@@ -49,22 +52,25 @@ public class CoreService {
         }
     }
 
-    public <T> T retryCall(int retries, Callable<T> callable) throws Exception {
-        Exception lastException = null;
-        for (int attempt = 1; attempt <= retries; attempt++) {
-            try {
-                return callable.call();
-            } catch (Exception e) {
-                lastException = e;
-                requestJwtToken();
-            }
-        }
-        assert lastException != null; // should never happen
-        throw lastException;
-    }
+//    public <T> T retryCall(int retries, Callable<T> callable) throws Exception {
+//        Exception lastException = null;
+//        for (int attempt = 1; attempt <= retries; attempt++) {
+//            try {
+//                return callable.call();
+//            } catch (Exception e) {
+//                lastException = e;
+//                requestJwtToken();
+//            }
+//        }
+//        assert lastException != null; // should never happen
+//        throw lastException;
+//    }
 
-
-    public <T> ResponseEntity<T> callWithToken(String endPoint, HttpMethod method, Class<T> responseType) throws RestClientException {
+    @Retryable(
+            maxAttempts = 3,
+            backoff = @Backoff(delay = 500),
+            retryFor = RestClientException.class)
+    public ResponseEntity<?> callWithToken(String endPoint, HttpMethod method, Class<?> responseType) throws RestClientException {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + JwtToken);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
@@ -75,6 +81,12 @@ public class CoreService {
                 entity,
                 responseType
         );
+    }
+
+    @Recover
+    public ResponseEntity<?> recover(RestClientException e, String endPoint, HttpMethod method, Class<?> responseType) {
+        requestJwtToken();
+        return callWithToken(endPoint, method, responseType);
     }
 
 }

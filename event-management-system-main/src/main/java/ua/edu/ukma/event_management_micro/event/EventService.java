@@ -154,7 +154,7 @@ public class EventService {
     private boolean buildingExists(long buildingId) {
         try {
             return coreService
-                    .callWithRetry(5, buildingServiceUrl + "/api/building/" + buildingId, HttpMethod.GET, BuildingDto.class)
+                    .callWithToken(buildingServiceUrl + "/api/building/" + buildingId, HttpMethod.GET, BuildingDto.class)
                     .getStatusCode()
                     .is2xxSuccessful();
         } catch (Exception _) {

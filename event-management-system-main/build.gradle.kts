@@ -27,6 +27,8 @@ dependencies {
 	implementation("org.springframework.modulith:spring-modulith-starter-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-mail:3.5.5")
+	implementation("org.springframework.retry:spring-retry:2.0.12")
+	implementation("org.springframework:spring-aop:6.2.11")
 
 	implementation("com.h2database:h2")
 	implementation("org.postgresql:postgresql:42.7.8")
