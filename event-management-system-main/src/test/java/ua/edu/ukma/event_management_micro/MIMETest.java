@@ -9,20 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.springframework.test.web.servlet.MvcResult;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public class MIMETest {
-
 
     @Autowired
     private MockMvc mockMvc;
@@ -62,6 +61,17 @@ public class MIMETest {
                 .accept(MediaType.TEXT_HTML))
                 .andDo(print())
                 .andExpect(content().contentType(MediaType.TEXT_HTML))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGenLogoPNG() throws Exception {
+        String location = "/api/static/icon";
+        this.mockMvc.perform(get(location)
+                .accept(MediaType.IMAGE_PNG))
+                .andDo(print())
+                .andExpect(content().contentType(MediaType.IMAGE_PNG))
+                .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"icon.png\""))
                 .andExpect(status().isOk());
     }
 
