@@ -50,6 +50,7 @@ public class JwtService {
 			SecretKey key = keyGenerator.generateKey();
 			this.secretKey = key.getEncoded();
 		} catch (NoSuchAlgorithmException e) {
+			//Shouldn't happen
 			throw new RuntimeException(e);
 		}
 	}

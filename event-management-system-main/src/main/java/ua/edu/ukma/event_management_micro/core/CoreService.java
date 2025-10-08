@@ -36,10 +36,6 @@ public class CoreService {
 
     public CoreService() {}
 
-//    public <T> ResponseEntity<T> callWithRetry(int retries, String endPoint, HttpMethod method, Class<T> responseType) throws Exception {
-//        return retryCall(retries, () -> callWithToken(endPoint, method, responseType));
-//    }
-
     private void requestJwtToken() {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername(name);
@@ -51,20 +47,6 @@ public class CoreService {
             throw new RuntimeException("Failed to get JWT token");
         }
     }
-
-//    public <T> T retryCall(int retries, Callable<T> callable) throws Exception {
-//        Exception lastException = null;
-//        for (int attempt = 1; attempt <= retries; attempt++) {
-//            try {
-//                return callable.call();
-//            } catch (Exception e) {
-//                lastException = e;
-//                requestJwtToken();
-//            }
-//        }
-//        assert lastException != null; // should never happen
-//        throw lastException;
-//    }
 
     @Retryable(
             maxAttempts = 3,

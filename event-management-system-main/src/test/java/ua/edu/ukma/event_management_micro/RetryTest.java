@@ -2,48 +2,63 @@ package ua.edu.ukma.event_management_micro;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import ua.edu.ukma.event_management_micro.core.CoreService;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-class RetryTest {
+@SpringBootTest
+@EnableRetry
+@TestPropertySource(properties = {
+        "secret.name=testuser",
+        "secret.pass=testpass"
+})
+class CoreServiceRetryTest {
 
-    CoreService coreService = new CoreService();
+    @Autowired
+    private CoreService coreService;
 
-    @Test
-    void testRetry() {
-        Assertions.assertDoesNotThrow(() -> {
-            coreService.retryCall(2, () -> {
-                System.out.println("Nothing happens, no error");
-                return null;
-            }
-            );
-        });
-    }
-
-    @Test
-    void testRetryError() {
-        Assertions.assertThrows(RuntimeException.class, () -> {
-            coreService.retryCall(5, () -> {
-                throw new RuntimeException("Always fails");
-            });
-        });
-    }
+    @MockitoBean
+    private RestTemplate restTemplate;
 
     @Test
-    void testRetryFailsTwoTime() {
-        AtomicInteger attempt = new AtomicInteger(0);
-        Assertions.assertDoesNotThrow(() -> {
-            coreService.retryCall(5, () -> {
-                if (attempt.get() <= 2) {
-                    attempt.incrementAndGet();
-                    System.out.println("Failing attempt " + attempt.get() );
-                    throw new RuntimeException("Fails first two times");
-                }
-                System.out.println("Success on attempt " + attempt.get() );
-                return null;
-            });
-        });
-    }
+    void shouldRetryCallWithTokenOnRestClientException() {
+        coreService.setJwtToken("test-token");
 
+        when(restTemplate.exchange(
+                eq("http://test-endpoint"),
+                eq(HttpMethod.GET),
+                any(),
+                eq(String.class)))
+                .thenThrow(new RestClientException("Connection failed"))
+                .thenThrow(new RestClientException("Timeout"))
+                .thenReturn(ResponseEntity.ok("Success"));
+
+        ResponseEntity<?> result = coreService.callWithToken(
+                "http://test-endpoint",
+                HttpMethod.GET,
+                String.class
+        );
+
+        verify(restTemplate, times(3)).exchange(
+                eq("http://test-endpoint"),
+                eq(HttpMethod.GET),
+                any(),
+                eq(String.class)
+        );
+
+        Assertions.assertEquals(result.getBody(), "Success");
+    }
 }
