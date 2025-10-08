@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
         "secret.name=testuser",
         "secret.pass=testpass"
 })
-class CoreServiceRetryTest {
+class RetryTest {
 
     @Autowired
     private CoreService coreService;
@@ -59,6 +59,6 @@ class CoreServiceRetryTest {
                 eq(String.class)
         );
 
-        Assertions.assertEquals(result.getBody(), "Success");
+        Assertions.assertEquals("Success", result.getBody());
     }
 }
