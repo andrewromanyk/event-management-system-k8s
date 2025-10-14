@@ -87,7 +87,7 @@ public class    TicketService {
 
         applicationEventPublisher.publishEvent(new LogEvent(this, "New ticket created: " + ticketEntity.getId()));
 
-        jmsTemplate.convertAndSend("send.email", new EmailDto("", userApi.getUserEmail(ticket.getId()), "Ticket purchase",
+        jmsTemplate.convertAndSend("send.email", new EmailDto("", userApi.getUserEmail(ticket.getOwner()), "Ticket purchase",
                 "You have successfully purchased a ticket for event " + eventApi.getEventName(ticketEntity.getEvent()))
         );
 

@@ -5,9 +5,14 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
+import org.springframework.jms.support.converter.MessageConverter;
+import org.springframework.jms.support.converter.MessageType;
 
+@Configuration
 @EnableJms
 public class JmsConfiguration {
 
@@ -26,6 +31,7 @@ public class JmsConfiguration {
 
     @Bean
     public ConnectionFactory connectionFactory() {
+        ActiveMQConnectionFactory result = new ActiveMQConnectionFactory("vm://localhost");
         return new ActiveMQConnectionFactory("vm://localhost");
     }
 
@@ -35,4 +41,13 @@ public class JmsConfiguration {
         template.setReceiveTimeout(3000);
         return template;
     }
+
+    @Bean
+    public MessageConverter jacksonJmsMessageConverter() {
+        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+        converter.setTargetType(MessageType.TEXT);
+        return converter;
+    }
+
+
 }
