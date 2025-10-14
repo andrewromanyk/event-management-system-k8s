@@ -1,5 +1,6 @@
 package ua.edu.ukma.event_management_micro.email;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.jms.ConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +33,7 @@ public class JmsConfig {
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(connectionFactory);
         template.setDefaultDestinationName("default.queue");
+        template.setMessageConverter(jacksonJmsMessageConverter());
         return template;
     }
 
@@ -39,6 +41,7 @@ public class JmsConfig {
     public JmsTemplate topicJmsTemplate(ConnectionFactory connectionFactory) {
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(connectionFactory);
+        template.setMessageConverter(jacksonJmsMessageConverter());
         template.setPubSubDomain(true);
         return template;
     }
@@ -56,6 +59,7 @@ public class JmsConfig {
     public MessageConverter jacksonJmsMessageConverter() {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
+        converter.setTypeIdPropertyName("_type");
         return converter;
     }
 

@@ -31,7 +31,6 @@ public class JmsConfiguration {
 
     @Bean
     public ConnectionFactory connectionFactory() {
-        ActiveMQConnectionFactory result = new ActiveMQConnectionFactory("vm://localhost");
         return new ActiveMQConnectionFactory("vm://localhost");
     }
 
@@ -47,6 +46,7 @@ public class JmsConfiguration {
     public MessageConverter jacksonJmsMessageConverter() {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
+        converter.setTypeIdPropertyName("_type");
         return converter;
     }
 
