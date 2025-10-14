@@ -39,6 +39,7 @@ public class JmsConfiguration {
     public JmsTemplate jmsTemplate(ConnectionFactory connectionFactory) {
         JmsTemplate template = new JmsTemplate(connectionFactory);
         template.setReceiveTimeout(3000);
+        template.setMessageConverter(jacksonJmsMessageConverter());
         return template;
     }
 
