@@ -26,7 +26,10 @@ dependencies {
 	implementation("org.springframework.modulith:spring-modulith-starter-core")
 	implementation("org.springframework.modulith:spring-modulith-starter-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-security")
-//	implementation("org.springframework.boot:spring-boot-starter-mail:3.5.5")
+	implementation("org.springframework.boot:spring-boot-starter-mail")
+	implementation("org.springframework.boot:spring-boot-starter-activemq")
+
+	implementation("org.apache.activemq:activemq-broker")
 
 	implementation("com.h2database:h2")
 	implementation("org.postgresql:postgresql:42.7.8")

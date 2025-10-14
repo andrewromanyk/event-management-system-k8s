@@ -53,8 +53,6 @@ public class JwtFilter extends OncePerRequestFilter {
 		String token = null;
 		String username = null;
 
-		System.out.printf("TEST STRING AHAHHAHAA");
-
 		try {
 			if (authHeader != null
 					&& !authHeader.isBlank()
