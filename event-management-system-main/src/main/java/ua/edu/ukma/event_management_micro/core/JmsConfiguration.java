@@ -3,6 +3,7 @@ package ua.edu.ukma.event_management_micro.core;
 import jakarta.jms.ConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ public class JmsConfiguration {
 
 //    @Value("${spring.activemq.broker-url}")
 //    private String brokerUrl;
+
 
     @Bean
     public BrokerService broker() throws Exception {
@@ -46,8 +48,8 @@ public class JmsConfiguration {
     public MessageConverter jacksonJmsMessageConverter() {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
+        converter.setTypeIdPropertyName("_type");
         return converter;
     }
-
 
 }
