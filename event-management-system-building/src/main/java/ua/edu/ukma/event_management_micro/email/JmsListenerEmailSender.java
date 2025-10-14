@@ -3,7 +3,6 @@ package ua.edu.ukma.event_management_micro.email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
-import ua.edu.ukma.event_management_micro.core.EmailDto;
 
 @Component
 public class JmsListenerEmailSender {

@@ -13,6 +13,9 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
 @EnableJms
 public class JmsConfiguration {
@@ -49,6 +52,12 @@ public class JmsConfiguration {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
         converter.setTypeIdPropertyName("_type");
+
+        // Map logical type names to actual classes
+        Map<String, Class<?>> typeIdMappings = new HashMap<>();
+        typeIdMappings.put("EmailDto", EmailDto.class);
+        converter.setTypeIdMappings(typeIdMappings);
+
         return converter;
     }
 
