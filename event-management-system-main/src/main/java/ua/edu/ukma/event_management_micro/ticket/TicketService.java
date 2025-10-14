@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import ua.edu.ukma.event_management_micro.core.BuildingDto;
 import ua.edu.ukma.event_management_micro.core.CoreService;
+import ua.edu.ukma.event_management_micro.core.EmailDto;
 import ua.edu.ukma.event_management_micro.core.LogEvent;
 import ua.edu.ukma.event_management_micro.event.api.EventApi;
 import ua.edu.ukma.event_management_micro.user.api.UserApi;
@@ -23,11 +23,12 @@ import java.util.Optional;
 public class    TicketService {
 
     private ModelMapper modelMapper;
-    private UserApi userInterface;
+    private UserApi userApi;
     private EventApi eventApi;
     private TicketRepository ticketRepository;
     private ApplicationEventPublisher applicationEventPublisher;
     private CoreService coreService;
+    private JmsTemplate jmsTemplate;
 
     @Value("${building.service.url}")
     private String buildingServiceUrl;
@@ -35,6 +36,11 @@ public class    TicketService {
     @Autowired
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
+    }
+
+    @Autowired
+    public void setJmsTemplate(JmsTemplate jmsTemplate) {
+        this.jmsTemplate = jmsTemplate;
     }
 
     @Autowired
@@ -48,8 +54,8 @@ public class    TicketService {
     }
 
     @Autowired
-    public void setUserInterface(UserApi userInterface) {
-        this.userInterface = userInterface;
+    public void setUserApi(UserApi userApi) {
+        this.userApi = userApi;
     }
 
     @Autowired
@@ -65,7 +71,7 @@ public class    TicketService {
     public boolean createTicket(TicketDto ticket) {
         TicketEntity ticketEntity = modelMapper.map(ticket, TicketEntity.class);
 
-        if (!(userInterface.validateUserExists(ticketEntity.getOwner()) || eventApi.eventExists(ticket.getEvent()))) {
+        if (!(userApi.validateUserExists(ticketEntity.getOwner()) || eventApi.eventExists(ticket.getEvent()))) {
             return false;
         }
 
@@ -80,6 +86,10 @@ public class    TicketService {
         ticketRepository.save(ticketEntity);
 
         applicationEventPublisher.publishEvent(new LogEvent(this, "New ticket created: " + ticketEntity.getId()));
+
+        jmsTemplate.convertAndSend("send.email", new EmailDto("", userApi.getUserEmail(ticket.getId()), "Ticket purchase",
+                "You have successfully purchased a ticket for event " + eventApi.getEventName(ticketEntity.getEvent()))
+        );
 
         return true;
     }

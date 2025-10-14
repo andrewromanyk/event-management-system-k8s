@@ -29,7 +29,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-activemq")
 
-	implementation("org.apache.activemq:activemq-broker")
+//	implementation("org.apache.activemq:activemq-broker")
 
 	implementation("com.h2database:h2")
 	implementation("org.postgresql:postgresql:42.7.8")

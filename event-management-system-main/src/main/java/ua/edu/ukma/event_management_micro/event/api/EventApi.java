@@ -4,4 +4,5 @@ public interface EventApi {
 
     public boolean eventExists(Long eventId);
     Long getBuildingId(Long eventId);
+    String getEventName(Long eventId);
 }

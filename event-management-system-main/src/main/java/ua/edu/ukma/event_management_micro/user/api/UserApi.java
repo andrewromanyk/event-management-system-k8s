@@ -6,5 +6,6 @@ package ua.edu.ukma.event_management_micro.user.api;
 public interface UserApi {
 
     boolean validateUserExists(Long userId);
+    String getUserEmail(Long userId);
 
 }

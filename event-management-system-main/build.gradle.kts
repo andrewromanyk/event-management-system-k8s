@@ -29,6 +29,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-mail:3.5.5")
 	implementation("org.springframework.retry:spring-retry:2.0.12")
 	implementation("org.springframework:spring-aop:6.2.11")
+	implementation("org.springframework.boot:spring-boot-starter-activemq")
+
+	implementation("org.apache.activemq:activemq-broker")
 
 	implementation("com.h2database:h2")
 	implementation("org.postgresql:postgresql:42.7.8")

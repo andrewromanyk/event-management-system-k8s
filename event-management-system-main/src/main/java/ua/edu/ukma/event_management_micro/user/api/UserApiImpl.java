@@ -26,4 +26,9 @@ public class UserApiImpl implements UserApi {
         }
     }
 
+    @Override
+    public String getUserEmail(Long userId) {
+        return userService.getUserById(userId).getEmail();
+    }
+
 }

@@ -24,4 +24,9 @@ public class EventApiIml implements EventApi {
         return eventService.getEventById(eventId).getBuildingId();
     }
 
+    @Override
+    public String getEventName(Long eventId) {
+        return eventService.getEventById(eventId).getEventTitle();
+    }
+
 }
