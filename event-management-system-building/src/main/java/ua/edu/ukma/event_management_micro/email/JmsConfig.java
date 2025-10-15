@@ -13,6 +13,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
+import ua.edu.ukma.event_management_micro.core.TicketReturnDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,10 +41,20 @@ public class JmsConfig {
     }
 
     @Bean
-    public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
-                                                    DefaultJmsListenerContainerFactoryConfigurer configurer) {
+    public JmsListenerContainerFactory<?> jmsContainerFactoryQueueCustom(ConnectionFactory connectionFactory,
+                                                                         DefaultJmsListenerContainerFactoryConfigurer configurer) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         configurer.configure(factory, connectionFactory);
+        factory.setMessageConverter(jacksonJmsMessageConverter());
+        return factory;
+    }
+
+    @Bean
+    public JmsListenerContainerFactory<?> jmsContainerFactoryPubSubCustom(ConnectionFactory connectionFactory,
+                                                                         DefaultJmsListenerContainerFactoryConfigurer configurer) {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        configurer.configure(factory, connectionFactory);
+        factory.setPubSubDomain(true);
         factory.setMessageConverter(jacksonJmsMessageConverter());
         return factory;
     }
@@ -57,6 +68,7 @@ public class JmsConfig {
         // Map logical type names to actual classes
         Map<String, Class<?>> typeIdMappings = new HashMap<>();
         typeIdMappings.put("EmailDto", EmailDto.class);
+        typeIdMappings.put("TicketReturnDto", TicketReturnDto.class);
         converter.setTypeIdMappings(typeIdMappings);
 
         return converter;

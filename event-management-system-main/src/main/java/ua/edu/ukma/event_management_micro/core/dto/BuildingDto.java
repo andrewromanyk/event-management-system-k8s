@@ -1,9 +1,5 @@
-package ua.edu.ukma.event_management_micro.core;
+package ua.edu.ukma.event_management_micro.core.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

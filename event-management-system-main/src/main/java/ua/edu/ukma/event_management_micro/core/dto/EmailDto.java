@@ -1,4 +1,4 @@
-package ua.edu.ukma.event_management_micro.core;
+package ua.edu.ukma.event_management_micro.core.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
