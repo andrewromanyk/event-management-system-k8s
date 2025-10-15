@@ -115,7 +115,13 @@ public class    TicketService {
     }
 
     public void removeTicket(long ticketId) {
-        ticketRepository.deleteById(ticketId);
+        Optional<TicketEntity> ticketEntity = ticketRepository.findById(ticketId);
+        ticketEntity.ifPresent(ticket -> {
+            ticketRepository.delete(ticket);
+            jmsTopicTemplate.convertAndSend("return.ticket",
+                    new TicketReturnDto(ticket.getId(), ticket.getEvent(), ticket.getOwner(), userApi.getUserEmail(ticket.getOwner()), "User requested ticket return")
+            );
+        });
     }
 
     public List<TicketDto> getAllTicketsForUser(Long user) {
@@ -129,15 +135,11 @@ public class    TicketService {
         Optional<TicketEntity> ticketEntity = ticketRepository.findById(ticketId);
         ticketEntity.ifPresent(ticket -> {
             ticketRepository.delete(ticket);
-            jmsTopicTemplate.send("return.ticket", session -> {
-                TicketReturnDto ticketReturnDto =
-                        new TicketReturnDto(ticket.getId(), ticket.getEvent(), ticket.getOwner(), userApi.getUserEmail(ticket.getOwner()), "User requested ticket return");
-                ObjectMessage message = session.createObjectMessage();
-                message.setObject(ticketReturnDto);
-
-                message.setBooleanProperty("sendEmail", true);
-
-                return message;
+            jmsTopicTemplate.convertAndSend("return.ticket",
+                    new TicketReturnDto(ticket.getId(), ticket.getEvent(), ticket.getOwner(), userApi.getUserEmail(ticket.getOwner()), "User requested ticket return"),
+                    message -> {
+                        message.setBooleanProperty("sendEmail", true);
+                        return message;
             });
         });
     }

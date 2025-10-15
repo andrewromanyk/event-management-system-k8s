@@ -13,7 +13,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
-import ua.edu.ukma.event_management_micro.core.TicketReturnDto;
+import ua.edu.ukma.event_management_micro.core.dto.TicketReturnDto;
 
 import java.util.HashMap;
 import java.util.Map;

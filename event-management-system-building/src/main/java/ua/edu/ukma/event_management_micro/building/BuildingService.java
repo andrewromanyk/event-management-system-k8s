@@ -4,12 +4,10 @@ package ua.edu.ukma.event_management_micro.building;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import ua.edu.ukma.event_management_micro.core.LogEvent;
+import ua.edu.ukma.event_management_micro.core.dto.LogEvent;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
