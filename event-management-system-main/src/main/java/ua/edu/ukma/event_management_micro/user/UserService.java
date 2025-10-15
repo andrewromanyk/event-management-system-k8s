@@ -11,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
-import ua.edu.ukma.event_management_micro.core.LogEvent;
+import ua.edu.ukma.event_management_micro.core.dto.LogEvent;
 import ua.edu.ukma.event_management_micro.user.jwt.JwtService;
 
 import java.util.Arrays;

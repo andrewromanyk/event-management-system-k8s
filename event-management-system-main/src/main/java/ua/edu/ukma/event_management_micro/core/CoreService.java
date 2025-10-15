@@ -14,8 +14,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.concurrent.Callable;
+import ua.edu.ukma.event_management_micro.core.dto.LoginRequest;
 
 @Service
 public class CoreService {

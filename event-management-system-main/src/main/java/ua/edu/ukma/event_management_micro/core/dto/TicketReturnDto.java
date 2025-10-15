@@ -1,4 +1,19 @@
 package ua.edu.ukma.event_management_micro.core.dto;
 
-public class TickerReturnDto {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class TicketReturnDto {
+    private Long ticketId;
+    private Long eventId;
+    private Long userId;
+    private String userEmail;
+    private String reason;
+
 }

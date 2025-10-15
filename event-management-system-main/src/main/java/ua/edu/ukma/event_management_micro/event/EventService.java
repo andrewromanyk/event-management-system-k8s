@@ -3,15 +3,12 @@ package ua.edu.ukma.event_management_micro.event;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import ua.edu.ukma.event_management_micro.core.BuildingDto;
+import ua.edu.ukma.event_management_micro.core.dto.BuildingDto;
 import ua.edu.ukma.event_management_micro.core.CoreService;
-import ua.edu.ukma.event_management_micro.core.LogEvent;
+import ua.edu.ukma.event_management_micro.core.dto.LogEvent;
 import ua.edu.ukma.event_management_micro.user.api.UserApi;
 
 import java.time.LocalDateTime;

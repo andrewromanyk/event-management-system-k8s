@@ -40,4 +40,9 @@ public class TicketControllerApi {
 	public void deleteTicket(@PathVariable long id) {
 		ticketService.removeTicket(id);
 	}
+
+	@DeleteMapping("/return/{id}")
+	public void returnTicket(@PathVariable long id) {
+		ticketService.returnTicket(id);
+	}
 }

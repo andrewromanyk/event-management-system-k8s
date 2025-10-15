@@ -11,6 +11,7 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 import ua.edu.ukma.event_management_micro.core.dto.EmailDto;
+import ua.edu.ukma.event_management_micro.core.dto.TicketReturnDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,6 +65,7 @@ public class JmsConfiguration {
         // Map logical type names to actual classes
         Map<String, Class<?>> typeIdMappings = new HashMap<>();
         typeIdMappings.put("EmailDto", EmailDto.class);
+        typeIdMappings.put("TicketReturnDto", TicketReturnDto.class);
         converter.setTypeIdMappings(typeIdMappings);
 
         return converter;
