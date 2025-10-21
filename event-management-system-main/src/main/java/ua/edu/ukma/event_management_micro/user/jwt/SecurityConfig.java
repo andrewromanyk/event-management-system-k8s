@@ -50,7 +50,6 @@ public class SecurityConfig {
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/**").permitAll()
-
                         .anyRequest().authenticated())
 //				.httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->
