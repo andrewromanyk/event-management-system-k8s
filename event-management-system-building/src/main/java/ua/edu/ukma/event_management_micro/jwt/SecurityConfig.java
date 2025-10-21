@@ -51,8 +51,8 @@ public class SecurityConfig {
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api-login").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/**").hasAuthority(API)
-
                         .anyRequest().authenticated())
 //				.httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->

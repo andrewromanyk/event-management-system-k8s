@@ -49,6 +49,8 @@ dependencies {
 	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 	testImplementation("io.rest-assured:rest-assured")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 }
 
 dependencyManagement {
@@ -60,3 +62,7 @@ dependencyManagement {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+//springBoot {
+//	buildInfo()
+//}
