@@ -57,6 +57,7 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("de.codecentric:spring-boot-admin-starter-client:3.5.5")
 }
 
 dependencyManagement {

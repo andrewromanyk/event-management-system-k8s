@@ -1,1 +1,1 @@
-rootProject.name = "event-management-micro"
+rootProject.name = "event-management-building"
