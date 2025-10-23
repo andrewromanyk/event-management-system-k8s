@@ -20,17 +20,14 @@ import java.util.Map;
 @EnableJms
 public class JmsConfiguration {
 
-//    @Value("${spring.activemq.broker-url}")
-//    private String brokerUrl;
-
-
     @Bean
     public BrokerService broker() throws Exception {
         BrokerService broker = new BrokerService();
         broker.addConnector("tcp://0.0.0.0:61616");
         broker.setPersistent(false);
-        broker.setUseJmx(false);
+//        broker.setUseJmx(false);
         broker.setBrokerName("main-service-broker");
+        broker.start();
         return broker;
     }
 
