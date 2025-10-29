@@ -3,6 +3,7 @@ package ua.edu.ukma.event_management_micro;
 import org.junit.jupiter.api.Test;
 import org.springframework.modulith.core.ApplicationModules;
 import org.springframework.modulith.docs.Documenter;
+import org.springframework.test.context.ActiveProfiles;
 
 class ModulithDocumentationTest {
 

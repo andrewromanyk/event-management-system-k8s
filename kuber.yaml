@@ -42,22 +42,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spring-modules-deploy-1
+  name: spring-modules-deploy-build
   labels:
-    app: spring-micro-1
+    app: spring-micro-build
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: spring-micro-1
+      app: spring-micro-build
   template:
     metadata:
       labels:
-        app: spring-micro-1
+        app: spring-micro-build
     spec:
       containers:
       - name: spring-micro
-        image: andrewromanyk/spring-micro-1:1.0.0
+        image: andrewromanyk/spring-micro-build:3.0.0
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -74,14 +74,20 @@ spec:
           value: "org.hibernate.dialect.PostgreSQLDialect"
         - name: SPRING_SQL_INIT_PLATFORM
           value: "postgresql"
+        - name: SPRING_BOOT_ADMIN_CLIENT_URL
+          value: "http://spring-micro-admin:8083"
+        - name: SPRING_BOOT_ADMIN_CLIENT_INSTANCE_SERVICE_BASE_URL
+          value: "http://spring-micro-build:8081"
+        - name: SPRING_BOOT_ADMIN_CLIENT_INSTANCE_MANAGEMENT_BASE_URL
+          value: "http://spring-micro-build:8081/actuator"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: spring-micro-1
+  name: spring-micro-build
 spec:
   selector:
-    app: spring-micro-1
+    app: spring-micro-build
   ports:
   - port: 8081
     targetPort: 8080
@@ -89,22 +95,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spring-modules-deploy-2
+  name: spring-modules-deploy-main
   labels:
-    app: spring-micro-2
+    app: spring-micro-main
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: spring-micro-2
+      app: spring-micro-main
   template:
     metadata:
       labels:
-        app: spring-micro-2
+        app: spring-micro-main
     spec:
       containers:
       - name: spring-micro
-        image: andrewromanyk/spring-micro-2:1.0.0
+        image: andrewromanyk/spring-micro-main:3.0.0
         imagePullPolicy: Always
         ports:
         - containerPort: 8082
@@ -122,15 +128,21 @@ spec:
         - name: SPRING_SQL_INIT_PLATFORM
           value: "postgresql"
         - name: BUILDING_SERVICE_URL
-          value: "http://spring-micro-1:8081"
+          value: "http://spring-micro-build:8081"
+        - name: SPRING_BOOT_ADMIN_CLIENT_URL
+          value: "http://spring-micro-admin:8083"
+        - name: SPRING_BOOT_ADMIN_CLIENT_INSTANCE_SERVICE_BASE_URL # spring.boot.admin.client.instance.service-base-url
+          value: "http://spring-micro-main:8080" 
+        - name: SPRING_BOOT_ADMIN_CLIENT_INSTANCE_MANAGEMENT_BASE_URL 
+          value: "http://spring-micro-main:8080/actuator"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: spring-micro-2
+  name: spring-micro-main
 spec:
   selector:
-    app: spring-micro-2
+    app: spring-micro-main
   ports:
   - port: 8080
     targetPort: 8082
@@ -138,11 +150,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: spring-micro-1-lb
+  name: spring-micro-build-lb
 spec:
   type: LoadBalancer
   selector:
-    app: spring-micro-1
+    app: spring-micro-build
   ports:
   - port: 8080
     targetPort: 8080
@@ -151,11 +163,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: spring-micro-2-lb
+  name: spring-micro-main-lb
 spec:
   type: LoadBalancer
   selector:
-    app: spring-micro-2
+    app: spring-micro-main
   ports:
   - port: 8082
     targetPort: 8082
@@ -178,7 +190,7 @@ spec:
     spec:
       containers:
       - name: spring-micro
-        image: andrewromanyk/spring-micro-admin:lastest
+        image: andrewromanyk/spring-micro-admin:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8083
@@ -188,6 +200,18 @@ kind: Service
 metadata:
   name: spring-micro-admin
 spec:
+  selector:
+    app: spring-micro-admin
+  ports:
+  - port: 8083
+    targetPort: 8083
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-micro-admin-lb
+spec:
+  type: LoadBalancer
   selector:
     app: spring-micro-admin
   ports:

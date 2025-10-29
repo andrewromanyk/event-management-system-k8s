@@ -3,7 +3,11 @@ package ua.edu.ukma.event_management_micro.core.config;
 import jakarta.jms.ConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.core.JmsTemplate;
@@ -20,6 +24,11 @@ import java.util.Map;
 @EnableJms
 public class JmsConfiguration {
 
+    @ConditionalOnProperty(
+            name = "activemq.custom.enable",
+            havingValue = "true",
+            matchIfMissing = true
+    )
     @Bean
     public BrokerService broker() throws Exception {
         BrokerService broker = new BrokerService();
@@ -31,6 +40,11 @@ public class JmsConfiguration {
         return broker;
     }
 
+    @ConditionalOnProperty(
+            name = "activemq.custom.enable",
+            havingValue = "true",
+            matchIfMissing = true
+    )
     @Bean
     public ConnectionFactory connectionFactory() {
         return new ActiveMQConnectionFactory("vm://localhost");
