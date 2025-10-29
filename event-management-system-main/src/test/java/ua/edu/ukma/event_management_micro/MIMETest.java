@@ -19,7 +19,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.springframework.test.web.servlet.MvcResult;
 
-@SpringBootTest
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.MOCK
+)
 @AutoConfigureMockMvc
 public class MIMETest {
 

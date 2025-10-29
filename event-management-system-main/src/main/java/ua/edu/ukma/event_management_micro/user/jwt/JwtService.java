@@ -3,7 +3,9 @@ package ua.edu.ukma.event_management_micro.user.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,25 +20,41 @@ import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class JwtService {
 
-	private UserDetailsService userDetailsService;
-	private final byte[] secretKey;
+//	private UserDetailsService userDetailsService;
 
-	@Autowired
-	public void setUserDetailsService(UserDetailsService userDetailsService) {
-		this.userDetailsService = userDetailsService;
+	@Value("${jwt.secret}")
+	private String setSecretString;
+	private byte[] secretKey;
+
+//	@Autowired
+//	public void setUserDetailsService(UserDetailsService userDetailsService) {
+//		this.userDetailsService = userDetailsService;
+//	}
+
+	@PostConstruct
+	public void init() {
+		if (setSecretString != null && !setSecretString.isBlank()) {
+			this.secretKey = setSecretString.getBytes();
+		}
 	}
 
 	public JwtService() {
+		if (setSecretString != null && !setSecretString.isBlank()) {
+			this.secretKey = setSecretString.getBytes();
+			return;
+		}
 		try {
 			KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
 			SecretKey key = keyGenerator.generateKey();
 			this.secretKey = key.getEncoded();
 		} catch (NoSuchAlgorithmException e) {
+			//Shouldn't happen
 			throw new RuntimeException(e);
 		}
 	}
@@ -49,14 +67,16 @@ public class JwtService {
 		return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
 	}
 
+	public boolean validateServer(String token) {
+		String username = extractUsername(token);
+		return username.equals("api") && !isTokenExpired(token);
+	}
+
 
 	public String generateToken(String username) {
 		Map<String, Object> claims = new HashMap<>();
 
-		claims.put("roles", userDetailsService.loadUserByUsername(username)
-				.getAuthorities().stream()
-				.map(GrantedAuthority::getAuthority)
-				.toList());
+		claims.put("roles", List.of("API_SERVER"));
 
 		return Jwts.builder()
 				.claims()

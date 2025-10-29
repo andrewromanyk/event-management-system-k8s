@@ -4,7 +4,8 @@ import org.springframework.modulith.ApplicationModule;
 import org.springframework.modulith.NamedInterface;
 
 @ApplicationModule (allowedDependencies = {
-        "user::api"
+        "user::api",
+        "core",
 })
 @NamedInterface("api")
 public class EventModule {

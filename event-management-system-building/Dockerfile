@@ -14,6 +14,6 @@ FROM openjdk:24-jdk-slim
 
 WORKDIR /app
 
-COPY --from=build /app/build/libs/event-management-micro-0.0.1-SNAPSHOT.jar /app/event-management-micro-0.0.1-SNAPSHOT.jar
+COPY --from=build /app/build/libs/event-management-build-0.0.1-SNAPSHOT.jar /app/event-management-build-0.0.1-SNAPSHOT.jar
 
-CMD ["java", "-jar", "/app/event-management-micro-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/app/event-management-build-0.0.1-SNAPSHOT.jar"]
