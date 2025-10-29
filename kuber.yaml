@@ -78,8 +78,10 @@ spec:
           value: "http://spring-micro-admin:8083"
         - name: SPRING_BOOT_ADMIN_CLIENT_INSTANCE_SERVICE_BASE_URL
           value: "http://spring-micro-build:8081"
-        - name: SPRING_BOOT_ADMIN_CLIENT_INSTANCE_MANAGEMENT_BASE_URL
-          value: "http://spring-micro-build:8081/actuator"
+        # - name: SPRING_BOOT_ADMIN_CLIENT_INSTANCE_MANAGEMENT_BASE_URL
+        #   value: "http://spring-micro-build:8081/actuator"
+        # - name: SPRING_BOOT_ADMIN_CLIENT_INSTANCE_HEALTH_BASE_URL
+        #   value: "http://spring-micro-build:8081/actuator/health"
 ---
 apiVersion: v1
 kind: Service
@@ -133,8 +135,10 @@ spec:
           value: "http://spring-micro-admin:8083"
         - name: SPRING_BOOT_ADMIN_CLIENT_INSTANCE_SERVICE_BASE_URL # spring.boot.admin.client.instance.service-base-url
           value: "http://spring-micro-main:8080" 
-        - name: SPRING_BOOT_ADMIN_CLIENT_INSTANCE_MANAGEMENT_BASE_URL 
-          value: "http://spring-micro-main:8080/actuator"
+        # - name: SPRING_BOOT_ADMIN_CLIENT_INSTANCE_MANAGEMENT_BASE_URL 
+        #   value: "http://spring-micro-main:8080/actuator"
+        # - name: SPRING_BOOT_ADMIN_CLIENT_INSTANCE_HEALTH_BASE_URL
+        #   value: "http://spring-micro-main:8080/actuator/health"
 ---
 apiVersion: v1
 kind: Service
