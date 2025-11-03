@@ -36,6 +36,8 @@ dependencies {
 	implementation("org.springframework:spring-aop:6.2.11")
 	implementation("org.springframework.boot:spring-boot-starter-activemq")
 
+	implementation("io.micrometer:micrometer-registry-prometheus")
+
 	implementation("org.apache.activemq:activemq-broker")
 
 	implementation("com.h2database:h2")
