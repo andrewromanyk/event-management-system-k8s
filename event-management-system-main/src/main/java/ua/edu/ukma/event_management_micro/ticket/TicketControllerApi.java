@@ -28,6 +28,16 @@ public class TicketControllerApi {
 		return ticketService.getAllTickets();
 	}
 
+	@GetMapping("/owner/{userId}")
+	public List<TicketDto> getTicketsOwnedByUser(@PathVariable Long userId) {
+		return ticketService.getAllTicketsForUser(userId);
+	}
+
+	@GetMapping("/events")
+	public List<TicketDto> getTicketsForEvents(@RequestBody List<Long> eventIds) {
+		return ticketService.getAllTicketsForEvents(eventIds);
+	}
+
 	@PostMapping
 	public ResponseEntity<String> createTicket(@RequestBody TicketDto ticketDto) {
 		if (ticketService.createTicket(ticketDto)) {

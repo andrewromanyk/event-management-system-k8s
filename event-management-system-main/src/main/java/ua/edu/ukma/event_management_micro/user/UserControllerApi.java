@@ -41,6 +41,17 @@ public class UserControllerApi {
                 .body(html);
     }
 
+    //get user by username
+    @GetMapping(value = "{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
+        try {
+            UserDto userDto = userService.getUserByUsername(username);
+            return ResponseEntity.ok(userDto);
+        } catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
     private String createUserHtmlPage(UserDto userDto) {
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +

@@ -144,14 +144,12 @@ public class    TicketService {
         });
     }
 
-//    public List<TicketDto> getAllTicketsCreatedByUser(long user) {
-//        return ticketRepository
-//                .findTicketEntitiesByEvent_Creator_Id(user)
-//                .stream()
-//                .map(a -> modelMapper.map(a, TicketDto.class))
-//                .toList();
-//    }
-
+    public List<TicketDto> getAllTicketsForEvents(List<Long> events) {
+        return ticketRepository
+                .findAllByEventIn(events)
+                .stream()
+                .map(a -> modelMapper.map(a, TicketDto.class)).toList();
+    }
 
     public int buildingCapacity(long buildingId) {
         try {
