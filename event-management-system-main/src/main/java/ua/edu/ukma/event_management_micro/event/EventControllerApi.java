@@ -48,7 +48,7 @@ public class EventControllerApi {
     }
 
     @GetMapping("/relevant")
-    public List<EventDto> getRelevantEventsForUser(@PathVariable long userId){
+    public List<EventDto> getRelevantEventsForUser(){
         return eventService.getAllRelevant().stream().toList();
     }
 
