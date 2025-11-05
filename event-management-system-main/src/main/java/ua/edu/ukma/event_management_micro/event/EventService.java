@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import ua.edu.ukma.event_management_micro.client.BuildingClient;
 import ua.edu.ukma.event_management_micro.core.dto.BuildingDto;
 import ua.edu.ukma.event_management_micro.core.CoreService;
 import ua.edu.ukma.event_management_micro.core.dto.LogEvent;
@@ -23,7 +24,8 @@ public class EventService {
     private final EventRepository eventRepository;
     private final UserApi userApi;
     private ApplicationEventPublisher applicationEventPublisher;
-    private CoreService coreService;
+//    private final CoreService coreService;
+    private final BuildingClient buildingClient;
 
     @Value("${building.service.url}")
     private String buildingServiceUrl;
@@ -34,13 +36,22 @@ public class EventService {
     }
 
 
+//    @Autowired
+//    public EventService(ModelMapper modelMapper, EventRepository eventRepository,
+//                        UserApi userApi, CoreService coreService) {
+//        this.modelMapper = modelMapper;
+//        this.eventRepository = eventRepository;
+//        this.userApi = userApi;
+//        this.coreService = coreService;
+//    }
+
     @Autowired
     public EventService(ModelMapper modelMapper, EventRepository eventRepository,
-                        UserApi userApi, CoreService coreService) {
+                        UserApi userApi, BuildingClient buildingClient) {
         this.modelMapper = modelMapper;
         this.eventRepository = eventRepository;
         this.userApi = userApi;
-        this.coreService = coreService;
+        this.buildingClient = buildingClient;
     }
 
     public List<EventDto> getAllEvents(){
@@ -150,10 +161,11 @@ public class EventService {
 
     private boolean buildingExists(long buildingId) {
         try {
-            return coreService
-                    .callWithToken(buildingServiceUrl + "/api/building/" + buildingId, HttpMethod.GET, BuildingDto.class)
-                    .getStatusCode()
-                    .is2xxSuccessful();
+            return buildingClient.getBuildingById(buildingId) != null;
+//            return coreService
+//                    .callWithToken(buildingServiceUrl + "/api/building/" + buildingId, HttpMethod.GET, BuildingDto.class)
+//                    .getStatusCode()
+//                    .is2xxSuccessful();
         } catch (Exception _) {
             return false;
         }
