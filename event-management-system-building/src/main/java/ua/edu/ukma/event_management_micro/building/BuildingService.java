@@ -1,6 +1,7 @@
 package ua.edu.ukma.event_management_micro.building;
 
 
+import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -95,5 +96,27 @@ public class BuildingService {
 
     private BuildingEntity dtoToEntity(BuildingDto buildingDto) {
         return modelMapper.map(buildingDto, BuildingEntity.class);
+    }
+
+    @PostConstruct
+    public void testData() {
+        //create 2 test buildings
+        if (buildingRepository.count() == 0) {
+            BuildingDto building1 = new BuildingDto();
+            building1.setAddress("123 Main St, Cityville");
+            building1.setAreaM2(500);
+            building1.setCapacity(100);
+            building1.setHourlyRate(50);
+            building1.setDescription("A spacious event hall suitable for conferences and weddings.");
+            createBuilding(building1);
+
+            BuildingDto building2 = new BuildingDto();
+            building2.setAddress("456 Elm St, Townsville");
+            building2.setAreaM2(300);
+            building2.setCapacity(50);
+            building2.setHourlyRate(30);
+            building2.setDescription("A cozy venue perfect for small gatherings and meetings.");
+            createBuilding(building2);
+        }
     }
 }

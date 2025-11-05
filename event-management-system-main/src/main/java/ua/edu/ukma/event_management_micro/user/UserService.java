@@ -1,5 +1,6 @@
 package ua.edu.ukma.event_management_micro.user;
 
+import jakarta.annotation.PostConstruct;
 import org.modelmapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -14,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ua.edu.ukma.event_management_micro.core.dto.LogEvent;
 import ua.edu.ukma.event_management_micro.user.jwt.JwtService;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -126,4 +128,43 @@ public class UserService {
     private UserEntity dtoToEntity(UserDto userDto) {
         return modelMapper.map(userDto, UserEntity.class);
     }
+
+    @PostConstruct
+    public void setupData() {
+        if (userRepository.count() == 0) {
+            UserDto admin = new UserDto();
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("adminpass"));
+            admin.setFirstName("Admin");
+            admin.setLastName("User");
+            admin.setEmail("test@gmail.com");
+            admin.setUserRole(UserRole.ADMIN);
+            admin.setDateOfBirth(LocalDate.of(2000, 1, 1));
+            admin.setPhoneNumber("+1234567890");
+            userRepository.save(dtoToEntity(admin));
+
+            UserDto user = new UserDto();
+            user.setUsername("user");
+            user.setPassword(passwordEncoder.encode("userpass"));
+            user.setFirstName("Normal");
+            user.setLastName("User");
+            user.setEmail("user@gmail.com");
+            user.setUserRole(UserRole.USER);
+            user.setDateOfBirth(LocalDate.of(1995, 5, 15));
+            user.setPhoneNumber("+1234567891");
+            userRepository.save(dtoToEntity(user));
+
+            UserDto manager = new UserDto();
+            manager.setUsername("manager");
+            manager.setPassword(passwordEncoder.encode("managerpass"));
+            manager.setFirstName("Manager");
+            manager.setLastName("User");
+            manager.setEmail("manager@gmail.com");
+            manager.setUserRole(UserRole.ORGANIZER);
+            manager.setDateOfBirth(LocalDate.of(1990, 3, 20));
+            manager.setPhoneNumber("+1234567892");
+            userRepository.save(dtoToEntity(manager));
+        }
+    }
+
 }
