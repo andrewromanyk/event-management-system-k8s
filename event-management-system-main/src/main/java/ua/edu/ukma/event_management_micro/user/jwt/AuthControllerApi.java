@@ -34,8 +34,8 @@ public class AuthControllerApi {
 		String token = userService.verify(username, password);
 
 		return ResponseEntity
-				.status(HttpStatus.FOUND)
-				.body("Token: " + token);
+				.status(HttpStatus.OK)
+				.body(token);
 	}
 
 	@GetMapping("/tologout")
