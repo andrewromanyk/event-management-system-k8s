@@ -33,7 +33,7 @@ public class TicketControllerApi {
 		return ticketService.getAllTicketsForUser(userId);
 	}
 
-	@GetMapping("/events")
+	@PostMapping("/events")
 	public List<TicketDto> getTicketsForEvents(@RequestBody List<Long> eventIds) {
 		return ticketService.getAllTicketsForEvents(eventIds);
 	}

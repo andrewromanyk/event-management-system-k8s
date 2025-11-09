@@ -115,6 +115,8 @@ public class UserControllerApi {
                 );
                 return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
             }
+            UserDto olduser = userService.getUserById(id);
+            userDto.setUsername(olduser.getUsername());
             userService.updateUser(id, userDto);
             return new ResponseEntity<>(HttpStatus.OK);
         }finally{

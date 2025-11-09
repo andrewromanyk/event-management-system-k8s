@@ -71,7 +71,7 @@ public class EventService {
         Long creatorId = event.getCreatorId();
         if (buildingId != null
                 && creatorId != null
-                && buildingExists(buildingId)
+//                && buildingExists(buildingId)
                 && userApi.validateUserExists(creatorId)) {
             eventRepository.save(toSave);
         } else {
@@ -89,7 +89,7 @@ public class EventService {
             Long creatorId = updatedEvent.getCreatorId();
             if (buildingId != null
                     && creatorId != null
-                    && buildingExists(buildingId)
+//                    && buildingExists(buildingId)
                     && userApi.validateUserExists(creatorId)
             ) {
                 EventEntity existingEvent = existingEventOpt.get();
@@ -167,7 +167,7 @@ public class EventService {
             EventDto event = new EventDto();
             event.setEventTitle("Sample Event");
             event.setBuildingId(1L);
-            event.setCreatorId(1L);
+            event.setCreatorId(3L);
             event.setDateTimeStart(LocalDateTime.now().plusDays(1));
             event.setDateTimeEnd(LocalDateTime.now().plusDays(1).plusHours(2));
             event.setDescription("This is a sample event for testing purposes.");
