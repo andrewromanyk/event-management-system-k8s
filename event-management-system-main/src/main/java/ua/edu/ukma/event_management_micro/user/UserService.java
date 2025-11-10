@@ -148,7 +148,7 @@ public class UserService {
             user.setPassword(passwordEncoder.encode("userpass"));
             user.setFirstName("Normal");
             user.setLastName("User");
-            user.setEmail("user@gmail.com");
+            user.setEmail("cr.and321@gmail.com");
             user.setUserRole(UserRole.USER);
             user.setDateOfBirth(LocalDate.of(1995, 5, 15));
             user.setPhoneNumber("+1234567891");
