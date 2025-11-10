@@ -22,16 +22,16 @@ import java.util.Map;
 @EnableJms
 public class JmsConfig {
 
-    @Value("${spring.activemq.broker-url}")
-    private String brokerUrl;
+//    @Value("${spring.activemq.broker-url}")
+//    private String brokerUrl;
 
-    @Bean
-    public ConnectionFactory connectionFactory() {
-        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory();
-        factory.setBrokerURL(brokerUrl);
-        factory.setTrustAllPackages(true);
-        return factory;
-    }
+//    @Bean
+//    public ConnectionFactory connectionFactory() {
+//        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory();
+//        factory.setBrokerURL(brokerUrl);
+//        factory.setTrustAllPackages(true);
+//        return factory;
+//    }
 
     @Bean
     public JmsTemplate jmsTemplate(ConnectionFactory connectionFactory) {

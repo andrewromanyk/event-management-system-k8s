@@ -40,15 +40,15 @@ public class JmsConfiguration {
         return broker;
     }
 
-    @ConditionalOnProperty(
-            name = "activemq.custom.enable",
-            havingValue = "true",
-            matchIfMissing = true
-    )
-    @Bean
-    public ConnectionFactory connectionFactory() {
-        return new ActiveMQConnectionFactory("tcp://0.0.0.0:61616");
-    }
+//    @ConditionalOnProperty(
+//            name = "activemq.custom.enable",
+//            havingValue = "true",
+//            matchIfMissing = true
+//    )
+//    @Bean
+//    public ConnectionFactory connectionFactory() {
+//        return new ActiveMQConnectionFactory("tcp://0.0.0.0:61616");
+//    }
 
     @Bean
     public JmsTemplate jmsTemplate(ConnectionFactory connectionFactory) {
