@@ -1,0 +1,24 @@
+syntax="proto3";
+
+package building;
+
+option java_package = "ua.edu.ukma.event_management_system_building.grpc";
+option java_multiple_files=true;
+option java_outer_classname="BuildingProto";
+
+service BuildingService {
+    rpc GetBuildingById (BuildingID) returns (Building) {}
+}
+
+message BuildingID {
+  int32 id = 1;
+}
+
+message Building {
+  int32 id = 1;
+  string address = 2;
+  int32 hourlyRate = 3;
+  int32 areaM2 = 4;
+  int32 capacity = 5;
+  string description = 6;
+}
