@@ -3,10 +3,10 @@ package ua.edu.ukma.event_management_micro.building;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data
 @NoArgsConstructor
 @Entity(name = "building")
 @ToString
+@Data
 public class BuildingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
