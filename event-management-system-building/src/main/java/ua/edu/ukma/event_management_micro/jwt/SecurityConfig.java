@@ -52,7 +52,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api-login").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/**").hasAuthority(API)
+                        .requestMatchers("/**").permitAll()
+//                        .requestMatchers("/**").hasAuthority(API)
                         .anyRequest().authenticated())
 //				.httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->

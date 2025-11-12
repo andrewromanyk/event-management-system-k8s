@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpMethod;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
+import ua.edu.ukma.event_management_micro.core.client.BuildingClient;
 import ua.edu.ukma.event_management_micro.core.dto.BuildingDto;
 import ua.edu.ukma.event_management_micro.core.CoreService;
 import ua.edu.ukma.event_management_micro.core.dto.EmailDto;
@@ -33,6 +34,7 @@ public class    TicketService {
     private CoreService coreService;
     private JmsTemplate jmsTemplate;
     private JmsTemplate jmsTopicTemplate;
+    private BuildingClient buildingClient;
 
     @Value("${building.service.url}")
     private String buildingServiceUrl;
@@ -74,6 +76,11 @@ public class    TicketService {
     @Autowired
     void setTicketRepository(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
+    }
+
+    @Autowired
+    public void setBuildingClient(BuildingClient buildingClient) {
+        this.buildingClient = buildingClient;
     }
 
     public boolean createTicket(TicketDto ticket) {
@@ -144,24 +151,15 @@ public class    TicketService {
         });
     }
 
-//    public List<TicketDto> getAllTicketsCreatedByUser(long user) {
-//        return ticketRepository
-//                .findTicketEntitiesByEvent_Creator_Id(user)
-//                .stream()
-//                .map(a -> modelMapper.map(a, TicketDto.class))
-//                .toList();
-//    }
-
+    public List<TicketDto> getAllTicketsForEvents(List<Long> events) {
+        return ticketRepository
+                .findAllByEventIn(events)
+                .stream()
+                .map(a -> modelMapper.map(a, TicketDto.class)).toList();
+    }
 
     public int buildingCapacity(long buildingId) {
-        try {
-            return ((BuildingDto) coreService
-                    .callWithToken(buildingServiceUrl + "/api/building/" + buildingId, HttpMethod.GET, BuildingDto.class)
-                    .getBody())
-                    .getCapacity();
-        } catch (Exception _) {
-            return 0;
-        }
+        return buildingClient.getBuildingById(buildingId).getBody().getCapacity();
     }
 
 }

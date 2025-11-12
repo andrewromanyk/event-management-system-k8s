@@ -1,5 +1,6 @@
 package ua.edu.ukma.event_management_micro.event;
 
+import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -70,7 +71,7 @@ public class EventService {
         Long creatorId = event.getCreatorId();
         if (buildingId != null
                 && creatorId != null
-                && buildingExists(buildingId)
+//                && buildingExists(buildingId)
                 && userApi.validateUserExists(creatorId)) {
             eventRepository.save(toSave);
         } else {
@@ -88,7 +89,7 @@ public class EventService {
             Long creatorId = updatedEvent.getCreatorId();
             if (buildingId != null
                     && creatorId != null
-                    && buildingExists(buildingId)
+//                    && buildingExists(buildingId)
                     && userApi.validateUserExists(creatorId)
             ) {
                 EventEntity existingEvent = existingEventOpt.get();
@@ -156,6 +157,24 @@ public class EventService {
                     .is2xxSuccessful();
         } catch (Exception _) {
             return false;
+        }
+    }
+
+    @PostConstruct
+    public void testData() {
+        //generate 1 event for first buildin assuming it exists
+        if (eventRepository.count() == 0) {
+            EventDto event = new EventDto();
+            event.setEventTitle("Sample Event");
+            event.setBuildingId(1L);
+            event.setCreatorId(3L);
+            event.setDateTimeStart(LocalDateTime.now().plusDays(1));
+            event.setDateTimeEnd(LocalDateTime.now().plusDays(1).plusHours(2));
+            event.setDescription("This is a sample event for testing purposes.");
+            event.setNumberOfTickets(100);
+            event.setMinAgeRestriction(18);
+            event.setPrice(50.0);
+            eventRepository.save(toEntity(event));
         }
     }
 }

@@ -59,12 +59,17 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
+
 	implementation("de.codecentric:spring-boot-admin-starter-client:3.5.5")
+
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+	implementation("org.springframework.cloud:spring-cloud-starter-config:4.3.0")
 }
 
 dependencyManagement {
 	imports {
 		mavenBom("org.springframework.modulith:spring-modulith-bom:${property("springModulithVersion")}")
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:2025.0.0")
 	}
 }
 

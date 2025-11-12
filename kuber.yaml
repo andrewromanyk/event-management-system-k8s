@@ -282,7 +282,6 @@ spec:
   - port: 9090
     targetPort: 9090
 ---
-# Dashboard Provider Config
 apiVersion: v1
 kind: ConfigMap
 metadata:
