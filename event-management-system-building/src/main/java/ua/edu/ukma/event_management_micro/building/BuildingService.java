@@ -124,7 +124,7 @@ public class BuildingService {
             building2.setCapacity(120);
             building2.setHourlyRate(60);
             building2.setDescription("A modern multi-purpose venue ideal for large conferences, exhibitions, and cultural events.");
-            createBuilding(building2);
+            createBuilding(building3);
         }
     }
 }
