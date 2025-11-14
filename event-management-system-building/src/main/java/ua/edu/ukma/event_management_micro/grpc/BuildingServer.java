@@ -2,7 +2,6 @@ package ua.edu.ukma.event_management_micro.grpc;
 
 import com.google.protobuf.Empty;
 import io.grpc.stub.StreamObserver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.edu.ukma.event_management_micro.building.BuildingEntity;
 import ua.edu.ukma.event_management_micro.building.BuildingRepository;
@@ -12,12 +11,10 @@ import ua.edu.ukma.event_management_system_building.grpc.BuildingServiceGrpc;
 
 import java.util.List;
 
-
 @Service
 public class BuildingServer extends BuildingServiceGrpc.BuildingServiceImplBase {
     private final BuildingRepository repo;
 
-    @Autowired
     BuildingServer(BuildingRepository repo) {
         this.repo = repo;
     }

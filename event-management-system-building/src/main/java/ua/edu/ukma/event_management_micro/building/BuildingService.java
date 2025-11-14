@@ -117,6 +117,14 @@ public class BuildingService {
             building2.setHourlyRate(30);
             building2.setDescription("A cozy venue perfect for small gatherings and meetings.");
             createBuilding(building2);
+
+            BuildingDto building3 = new BuildingDto();
+            building2.setAddress("789 Elm St, Village-ville");
+            building2.setAreaM2(600);
+            building2.setCapacity(120);
+            building2.setHourlyRate(60);
+            building2.setDescription("A modern multi-purpose venue ideal for large conferences, exhibitions, and cultural events.");
+            createBuilding(building2);
         }
     }
 }

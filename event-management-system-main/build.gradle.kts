@@ -3,6 +3,7 @@ plugins {
 	id("org.springframework.boot") version "3.5.5"
 	id("io.spring.dependency-management") version "1.1.7"
 	id("com.gorylenko.gradle-git-properties") version "2.5.3"
+	id("com.google.protobuf") version "0.9.5"
 }
 
 gitProperties {
@@ -21,6 +22,26 @@ java {
 
 repositories {
 	mavenCentral()
+}
+
+protobuf {
+	protoc {
+		artifact = "com.google.protobuf:protoc:4.33.0"
+	}
+
+	plugins {
+		create("grpc") {
+			artifact = "io.grpc:protoc-gen-grpc-java:1.76.0"
+		}
+	}
+
+	generateProtoTasks {
+		all().forEach { task ->
+			task.plugins {
+				create("grpc")
+			}
+		}
+	}
 }
 
 extra["springModulithVersion"] = "1.4.1"
@@ -64,6 +85,12 @@ dependencies {
 
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	implementation("org.springframework.cloud:spring-cloud-starter-config:4.3.0")
+
+	runtimeOnly("io.grpc:grpc-netty-shaded:1.76.0")
+	implementation("io.grpc:grpc-protobuf:1.76.0")
+	implementation("io.grpc:grpc-stub:1.76.0")
+	implementation("com.google.protobuf:protobuf-java:4.33.0")
+	implementation("com.google.protobuf:protobuf-java-util:4.33.0")
 }
 
 dependencyManagement {
