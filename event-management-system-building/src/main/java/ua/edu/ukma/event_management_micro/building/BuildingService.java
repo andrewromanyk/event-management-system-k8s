@@ -119,11 +119,11 @@ public class BuildingService {
             createBuilding(building2);
 
             BuildingDto building3 = new BuildingDto();
-            building2.setAddress("789 Elm St, Village-ville");
-            building2.setAreaM2(600);
-            building2.setCapacity(120);
-            building2.setHourlyRate(60);
-            building2.setDescription("A modern multi-purpose venue ideal for large conferences, exhibitions, and cultural events.");
+            building3.setAddress("789 Elm St, Village-ville");
+            building3.setAreaM2(600);
+            building3.setCapacity(120);
+            building3.setHourlyRate(60);
+            building3.setDescription("A modern multi-purpose venue ideal for large conferences, exhibitions, and cultural events.");
             createBuilding(building3);
         }
     }

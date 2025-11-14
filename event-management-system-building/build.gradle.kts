@@ -75,7 +75,7 @@ dependencies {
 	implementation("io.micrometer:micrometer-registry-prometheus")
 	implementation("de.codecentric:spring-boot-admin-starter-client:3.5.5")
 
-	runtimeOnly("io.grpc:grpc-netty-shaded:1.76.0")
+	implementation("io.grpc:grpc-netty-shaded:1.76.0")
 	implementation("io.grpc:grpc-protobuf:1.76.0")
 	implementation("io.grpc:grpc-stub:1.76.0")
 	implementation("com.google.protobuf:protobuf-java:4.33.0")
