@@ -1,6 +1,7 @@
 package ua.edu.ukma.event_management_micro.grpc;
 
 import com.google.protobuf.Empty;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import org.springframework.stereotype.Service;
 import ua.edu.ukma.event_management_micro.building.BuildingEntity;
@@ -25,7 +26,11 @@ public class BuildingServer extends BuildingServiceGrpc.BuildingServiceImplBase 
         BuildingEntity building = repo.findById(id).orElse(null);
 
         if (building == null) {
-            resp.onError(new RuntimeException("Building with id " + id + " not found"));
+            resp.onError(
+                    Status.NOT_FOUND
+                            .withDescription("Building with id " + id + " not found")
+                            .asRuntimeException()
+            );
             return;
         }
 
@@ -45,7 +50,11 @@ public class BuildingServer extends BuildingServiceGrpc.BuildingServiceImplBase 
         List<BuildingEntity> buildings = repo.findAll();
 
         if (buildings.isEmpty()) {
-            resp.onError(new RuntimeException("No buildings found"));
+            resp.onError(
+                    Status.NOT_FOUND
+                            .withDescription("No buildings found")
+                            .asRuntimeException()
+            );
             return;
         }
 
