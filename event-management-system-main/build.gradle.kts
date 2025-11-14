@@ -86,7 +86,7 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	implementation("org.springframework.cloud:spring-cloud-starter-config:4.3.0")
 
-	runtimeOnly("io.grpc:grpc-netty-shaded:1.76.0")
+	implementation("io.grpc:grpc-netty-shaded:1.76.0")
 	implementation("io.grpc:grpc-protobuf:1.76.0")
 	implementation("io.grpc:grpc-stub:1.76.0")
 	implementation("com.google.protobuf:protobuf-java:4.33.0")
