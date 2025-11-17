@@ -91,6 +91,9 @@ dependencies {
 	implementation("io.grpc:grpc-stub:1.76.0")
 	implementation("com.google.protobuf:protobuf-java:4.33.0")
 	implementation("com.google.protobuf:protobuf-java-util:4.33.0")
+
+	testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner")
+	testImplementation("io.projectreactor:reactor-core")
 }
 
 dependencyManagement {
@@ -100,9 +103,9 @@ dependencyManagement {
 	}
 }
 
+
 tasks.withType<Test> {
 	useJUnitPlatform()
-	maxParallelForks = 1
 }
 
 

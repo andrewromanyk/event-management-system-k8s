@@ -7,6 +7,7 @@ import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,6 +32,9 @@ public class GrpcServerConfig {
     @Value("${grpc.server.trust-cert:certs/ca.cert.pem}")
     private String trustCertPath;
 
+    @ConditionalOnProperty(
+            name = "grpc.start.enabled",
+            havingValue = "true")
     @Bean(initMethod = "start", destroyMethod = "shutdown")
     public Server grpcServer(BuildingServer buildingService) throws SSLException {
         if (mtlsEnabled) {

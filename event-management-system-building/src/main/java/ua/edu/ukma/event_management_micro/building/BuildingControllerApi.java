@@ -31,7 +31,7 @@ public class BuildingControllerApi {
         return ResponseEntity.of(buildingService.getBuildingById(id));
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<BuildingDto> getBuildings(
         @RequestParam(required = false) Integer capacity
     ) {

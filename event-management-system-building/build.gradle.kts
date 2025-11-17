@@ -3,6 +3,8 @@ plugins {
 	id("org.springframework.boot") version "3.5.5"
 	id("io.spring.dependency-management") version "1.1.7"
 	id("com.google.protobuf") version "0.9.5"
+	id("org.springframework.cloud.contract") version "4.3.0"
+	id("maven-publish")
 }
 
 group = "ua.edu.ukma"
@@ -40,6 +42,7 @@ protobuf {
 }
 
 extra["springModulithVersion"] = "1.4.1"
+extra["springCloudVersion"] = "2024.0.0"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -49,8 +52,6 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-activemq")
-
-// implementation("org.apache.activemq:activemq-broker")
 
 	implementation("com.h2database:h2")
 	implementation("org.postgresql:postgresql:42.7.8")
@@ -69,6 +70,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 	testImplementation("io.rest-assured:rest-assured")
+	testImplementation("org.springframework.cloud:spring-cloud-starter-contract-verifier")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -84,13 +86,24 @@ dependencies {
 dependencyManagement {
 	imports {
 		mavenBom("org.springframework.modulith:spring-modulith-bom:${property("springModulithVersion")}")
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
 	}
+}
+
+contracts {
+	setTestFramework("JUNIT5")
+	setPackageWithBaseClasses("ua.edu.ukma.event_management_micro.building.contracts")
+	setBaseClassForTests("ua.edu.ukma.event_management_micro.building.contracts.BuildingBase")
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-//springBoot {
-//	buildInfo()
-//}
+publishing {
+	publications {
+		create<MavenPublication>("stubs") {
+			artifact(tasks.named("verifierStubsJar"))
+		}
+	}
+}
