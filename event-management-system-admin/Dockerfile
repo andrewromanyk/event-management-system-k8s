@@ -3,14 +3,13 @@ FROM gradle:jdk24-corretto AS build
 WORKDIR /app
 
 COPY ./src /app/src
-COPY ./gradlew /app/gradlew
 COPY ./build.gradle /app/build.gradle
 COPY ./settings.gradle /app/settings.gradle
 COPY ./gradle /app/gradle
 
-RUN chmod +x gradlew && gradle build
+RUN gradle build
 
-FROM openjdk:24-jdk-slim
+FROM amazoncorretto:24.0.2-alpine3.22
 
 WORKDIR /app
 

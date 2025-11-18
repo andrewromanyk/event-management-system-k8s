@@ -7,14 +7,16 @@ COPY ./event-management-system-building/src /app/main/src
 COPY ./event-management-system-building/build.gradle.kts /app/main/build.gradle.kts
 COPY ./event-management-system-building/settings.gradle.kts /app/main/settings.gradle.kts
 COPY ./event-management-system-building/gradle /app/main/gradle
+COPY ./event-management-system-building/certs /app/main/certs
 
 RUN gradle build
 
-FROM openjdk:24-jdk-slim
+FROM amazoncorretto:24.0.2-alpine3.22
 
 WORKDIR /app
 
 COPY --from=build /app/main/build/libs/event-management-building-0.0.1-SNAPSHOT.jar /app/event-management-build-0.0.1-SNAPSHOT.jar
+COPY --from=build /app/main/certs /app/certs
 
 CMD ["java", "-jar", "/app/event-management-build-0.0.1-SNAPSHOT.jar"]
 

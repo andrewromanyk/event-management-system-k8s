@@ -24,6 +24,7 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-gateway-server-webmvc")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	implementation("de.codecentric:spring-boot-admin-starter-client:3.5.5")
 }
 
 dependencyManagement {
