@@ -51,9 +51,8 @@ public class BuildingClientContractTest {
 
     @Test
     public void shouldGetBuildingById() {
-        // When
         ResponseEntity<BuildingDto> response = buildingClient.getBuildingById(1L);
-        // Then
+
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getId()).isEqualTo(1L);
@@ -61,12 +60,10 @@ public class BuildingClientContractTest {
 
     @Test
     public void shouldReturnAllBuildings() {
-        // Given
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
-        // When
         ResponseEntity<BuildingDto[]> response = restTemplate.exchange(
                 baseUrl + "/api/building",
                 org.springframework.http.HttpMethod.GET,
@@ -74,14 +71,12 @@ public class BuildingClientContractTest {
                 BuildingDto[].class
         );
 
-        // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotEmpty();
     }
 
     @Test
     public void shouldCreateNewBuilding() {
-        // Given
         BuildingDto newBuilding = new BuildingDto();
         newBuilding.setAddress("New Building Address");
         newBuilding.setHourlyRate(75);
@@ -93,14 +88,12 @@ public class BuildingClientContractTest {
         headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
         HttpEntity<BuildingDto> entity = new HttpEntity<>(newBuilding, headers);
 
-        // When
         ResponseEntity<BuildingDto> response = restTemplate.postForEntity(
                 baseUrl + "/api/building",
                 entity,
                 BuildingDto.class
         );
 
-        // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getId()).isNotNull();
@@ -122,18 +115,11 @@ public class BuildingClientContractTest {
                 updatedBuilding
         );
 
-        // Then - if no exception thrown, it's successful
-        // The contract expects 200 OK
-        // RestTemplate.put() doesn't return a response, but throws exception on error
     }
 
     @Test
     public void shouldDeleteBuilding() {
-        // When
         restTemplate.delete(baseUrl + "/api/building/1");
-
-        // Then - if no exception thrown, deletion was successful
-        // The contract expects 200 OK
     }
 
 
