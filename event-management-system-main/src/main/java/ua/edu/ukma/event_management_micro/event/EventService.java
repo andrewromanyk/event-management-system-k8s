@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import ua.edu.ukma.event_management_micro.core.dto.BuildingDto;
 import ua.edu.ukma.event_management_micro.core.CoreService;
 import ua.edu.ukma.event_management_micro.core.dto.LogEvent;
+import ua.edu.ukma.event_management_micro.grpc.BuildingGrpcClient;
 import ua.edu.ukma.event_management_micro.user.api.UserApi;
+import ua.edu.ukma.event_management_system_building.grpc.Building;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +30,9 @@ public class EventService {
 
     @Value("${building.service.url}")
     private String buildingServiceUrl;
+
+    @Autowired
+    private BuildingGrpcClient buildingGrpcClient;
 
     @Autowired
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
@@ -71,7 +76,7 @@ public class EventService {
         Long creatorId = event.getCreatorId();
         if (buildingId != null
                 && creatorId != null
-//                && buildingExists(buildingId)
+                && buildingExists(buildingId)
                 && userApi.validateUserExists(creatorId)) {
             eventRepository.save(toSave);
         } else {
@@ -150,19 +155,14 @@ public class EventService {
     }
 
     private boolean buildingExists(long buildingId) {
-        try {
-            return coreService
-                    .callWithToken(buildingServiceUrl + "/api/building/" + buildingId, HttpMethod.GET, BuildingDto.class)
-                    .getStatusCode()
-                    .is2xxSuccessful();
-        } catch (Exception _) {
-            return false;
-        }
+        return buildingGrpcClient.streamAllBuildings().stream()
+                .map(Building::getId)
+                .anyMatch(id -> id == buildingId);
     }
 
     @PostConstruct
     public void testData() {
-        //generate 1 event for first buildin assuming it exists
+        //generate 1 event for first building assuming it exists
         if (eventRepository.count() == 0) {
             EventDto event = new EventDto();
             event.setEventTitle("Sample Event");
