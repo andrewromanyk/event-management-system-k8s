@@ -1,0 +1,19 @@
+.dummy-buy:hover {
+    background-color: #4E80E3;
+}
+
+.dummy-buy {
+    color: aliceblue;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: #599E5E;
+}
+
+.desc-text {
+    font-weight: bold;
+    font-size: 20px;
+}

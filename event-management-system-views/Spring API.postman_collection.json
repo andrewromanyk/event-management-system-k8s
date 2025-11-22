@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "8a3b38da-80ee-47d7-b2ed-f9fe315b7cdf",
+		"name": "Spring API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36346643"
+	},
+	"item": [
+		{
+			"name": "User's name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if username is correct\", function (){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.username).to.eql(\"and123\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Event successful creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check code\", function (){\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"eventTitle\": \"test concert\",\r\n    \"dateTimeStart\": \"2024-10-19T19:14:57.504355\",\r\n    \"dateTimeEnd\": \"2024-10-19T21:14:57.504355\",\r\n    \"building\": 2,\r\n    \"description\": \"desc\",\r\n    \"numberOfTickets\": 100,\r\n    \"minAgeRestriction\": 18,\r\n    \"rating\": [],\r\n    \"users\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/event/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"event",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Building description auto creation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/building/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"building",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Event update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if new name is not accepted.\", function (){\r",
+							"    pm.expect(pm.response.text()).to.eql(\"Name contains forbidden characters: ы, э, ё, ъ.\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Check code.\", function (){\r",
+							"    pm.expect(pm.response.code).to.eql(400)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"eventTitle\": \"queen-concert ы\",\r\n    \"dateTimeStart\": \"2024-10-20T15:54:06.243466\",\r\n    \"dateTimeEnd\": \"2024-10-20T17:54:06.243466\",\r\n    \"building\": 2,\r\n    \"description\": \"A great queen concert\",\r\n    \"numberOfTickets\": 100,\r\n    \"minAgeRestriction\": 18,\r\n    \"rating\": [],\r\n    \"users\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/event/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"event",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ticket constraint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check code\", function (){\r",
+							"    pm.expect(pm.response.code).to.eql(500)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/building/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"building",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

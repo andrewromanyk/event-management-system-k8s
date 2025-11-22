@@ -1,0 +1,95 @@
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin: 20px auto;
+}
+
+label {
+    font-family: Verdana, sans-serif;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #1B1F23;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="datetime-local"],
+input[type="date"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #bec8d1;
+    border-radius: 5px;
+    font-family: Verdana, sans-serif;
+    font-size: 14px;
+}
+
+textarea {
+    height: 100px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #1B1F23;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(27, 31, 35, 0.2);
+}
+
+.submit {
+    background-color: #1B1F23;
+    color: aliceblue;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit:hover {
+    background-color: #444a50;
+}
+
+.fullOutside {
+    background-color: #F0F0F0;
+    box-shadow: #1B1F23 1px 1px 25px;
+    width: 60vh;
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.inside {
+    width: 100%;
+    justify-content: center;
+    text-align: left;
+    padding: 20px;
+    font-family: Monospace, monospace;
+    color: black;
+}
+
+.mainText {
+    font-family: Monospace, monospace;
+    color: black;
+}
+
+.footer{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}

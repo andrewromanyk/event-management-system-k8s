@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ua"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Create user - Event Manager</title>
+    <link rel="stylesheet" href="../static/styles/basic.css"
+          th:href="@{/styles/basic.css}">
+    <link rel="stylesheet" href="../static/styles/forms.css"
+          th:href="@{styles/forms.css}">
+    <link rel="icon" href="../static/em-icon.png"
+          th:href="@{/em-icon.png}">
+</head>
+
+<body>
+<div th:insert="~{page-parts :: heading}"></div>
+
+<div class="fullOutside">
+    <div class="mainText">
+        <br>
+        Login
+    </div>
+    <br>
+
+    <form id="loginForm" th:action="@{/login}" method="POST">
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required minlength="1">
+        <br>
+
+        <label for="pass">Password:</label>
+        <input type="password" id="pass" name="password" required minlength="1">
+        <br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+</div>
+
+
+<div th:insert="~{page-parts :: footing}"></div>
+</body>
+
+</html>

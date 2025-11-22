@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../static/styles/basic.css"
+          th:href="@{/styles/basic.css}">
+    <link rel="stylesheet" href="../../static/styles/event.css"
+          th:href="@{/styles/event.css}">
+    <link rel="icon" href="../../static/em-icon.png"
+          th:href="@{/em-icon.png}">
+</head>
+<body>
+<div th:insert="~{page-parts :: heading}"></div>
+
+    <div class="fullOutside">
+        <div class="inner">
+            <div th:object="${event}"  class="innerOutside col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary" th:text="${event.eventTitle}">Name</h5>
+                        <h5 class="card-text">
+                            <strong>Building:</strong> <span th:text="${building.address}"></span>
+                        </h5>
+                        <h5 class="card-text">
+                            <strong>Description:</strong> <span th:text="${event.description}"></span>
+                        </h5>
+                        <h5 class="card-text">
+                            <strong>Number of Tickets:</strong> <span th:text="${event.numberOfTickets}"></span>
+                        </h5>
+                        <h5 class="card-text">
+                            <strong>Minimum Age Restriction:</strong> <span th:text="${event.minAgeRestriction}"></span>
+                        </h5>
+                        <h5 class="card-text">
+                            <strong>Price:</strong> <span th:text="${event.price}"></span>
+                        </h5>
+                        <div class="card-footer text-muted">
+                            <small>
+                                <strong>Start:</strong> <span th:text="${#temporals.format(event.dateTimeStart, 'dd MMM yyyy HH:mm')}"></span><br>
+                                <strong>End:</strong> <span th:text="${#temporals.format(event.dateTimeEnd, 'dd MMM yyyy HH:mm')}"></span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-cont" th:if="${event.getDateTimeEnd().isAfter(T(java.time.LocalDateTime).now()) && isAllowedToBuy}" >
+                <a th:href="@{'/event/' + ${event.id} + '/buy-ticket'}">
+                    <button class="button">
+                        Buy ticket
+                    </button>
+                </a>
+            </div>
+            <div style="text-align: center" class="text-to-do">
+                <div th:if="${!event.getDateTimeEnd().isAfter(T(java.time.LocalDateTime).now())}">
+                    The event has ended!
+                </div>
+                <div th:if="${!isAllowedToBuy}">
+                    Sorry, you are not old enough to attend this event!
+                </div>
+            </div>
+            <div class="button-cont" sec:authorize="hasAuthority('ORGANIZER')">
+                <a th:href="@{~/event/{id}/edit(id=${event.id})}">
+                    <button class="button" style="background-color: gold">Update</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+<div th:insert="~{page-parts :: footing}"></div>
+</body>
+</html>

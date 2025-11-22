@@ -1,0 +1,31 @@
+.fullOutside{
+    display: block;
+    background-color: #F0F0F0;
+    box-shadow: #1B1F23 1px 1px 25px;
+    width: 60vh;
+    height: 100vh;
+    margin: 0 auto;
+    text-align: center;
+    font-family: Verdana, sans-serif;
+}
+
+.greeting{
+    font-family: Verdana, sans-serif;
+}
+
+ol{
+    padding: 0;
+    list-style-type: none;
+}
+
+.ticketName {
+    font-family: Verdana, sans-serif;
+    color: black;
+}
+
+.ticketRow{
+    list-style: none;
+    font-family: Verdana, sans-serif;
+    color: black;
+    font-size: 15px;
+}

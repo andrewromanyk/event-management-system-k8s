@@ -1,0 +1,27 @@
+.fullOutside{
+    background-color: #F0F0F0;
+    box-shadow: #1B1F23 1px 1px 25px;
+    width: 75vh;
+    height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.managing-button{
+    font-family: Verdana, sans-serif;
+    height: 75px;
+    margin: 10px;
+    background-color: #25324D;
+    color: white;
+    border: none;
+}
+
+.managing-button:hover{
+    background-color: #061E26;
+}
+
+.managing-button:active{
+    background-color: #4E80E3;
+}

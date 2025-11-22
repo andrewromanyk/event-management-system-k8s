@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>My Profile</title>
+    <link rel="stylesheet" href="../../static/styles/myprofile.css"
+          th:href="@{/styles/myprofile.css}">
+    <link rel="stylesheet" href="../../static/styles/basic.css"
+          th:href="@{/styles/basic.css}">
+    <link rel="icon" href="../../../static/em-icon.png"
+          th:href="@{/em-icon.png}">
+</head>
+<body>
+<div th:insert="~{page-parts :: heading}"></div>
+
+    <div class="fullOutside" th:object="${user}">
+        <div>
+            <div class="information">
+                <div class="greeting">
+                    <br>
+                    Welcome,&nbsp;<div sec:authentication="name" style="display: inline">[unknown name]</div>!
+                </div>
+                <div>
+                    <br>
+                    Name:&nbsp;<span th:text="${user.firstName}"></span>&nbsp;<span th:text="${user.lastName}"></span>
+                </div>
+                <div>
+                    <br>
+                    Email:&nbsp;<span th:text="${user.email}"></span>
+                </div>
+                <div>
+                    <br>
+                    Phone number:&nbsp;<span th:text="${user.phoneNumber}"></span>
+                </div>
+            </div>
+            <div class="logout">
+                <button id="logoutButton">Logout</button>
+                <a th:href="@{/user/{id}/edit(id=${user.id})}">
+                    <button class="edit-button">Edit</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+<div th:insert="~{page-parts :: footing}"></div>
+</body>
+
+<script>
+    document.getElementById('logoutButton').addEventListener('click', function () {
+        fetch('/tologout', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(response => {
+            window.location.href = '/FAQ.html'
+        })
+    });
+</script>
+
+
+</html>

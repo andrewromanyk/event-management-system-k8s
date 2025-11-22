@@ -1,0 +1,89 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.1'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id 'com.google.protobuf' version '0.9.5'
+}
+
+group = 'ua.edu.ukma'
+version = '0.0.1-SNAPSHOT'
+
+protobuf {
+	protoc {
+		artifact = "com.google.protobuf:protoc:4.33.0"
+	}
+	plugins {
+		create("grpc") {
+			artifact = "io.grpc:protoc-gen-grpc-java:1.76.0"
+		}
+	}
+	generateProtoTasks {
+		all().forEach { task ->
+			task.plugins {
+				create("grpc")
+			}
+		}
+	}
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.modelmapper:modelmapper:3.2.1'
+	implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-security:3.3.4'
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.6' // JWT dependency
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.3.4'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-aop:3.3.5'
+	implementation 'org.springframework.boot:spring-boot-starter-cache:3.3.5'
+
+	runtimeOnly 'com.h2database:h2:2.3.232'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6' // JWT dependency
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6' // JWT dependency
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	compileOnly 'org.projectlombok:lombok:1.18.34'
+	annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+	testCompileOnly 'org.projectlombok:lombok:1.18.34'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'de.codecentric:spring-boot-admin-starter-client:3.5.5'
+
+	runtimeOnly 'io.grpc:grpc-netty-shaded:1.76.0'
+	implementation 'io.grpc:grpc-protobuf:1.76.0'
+	implementation 'io.grpc:grpc-stub:1.76.0'
+	implementation 'com.google.protobuf:protobuf-java:4.33.0'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2025.0.0'
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+	options.compilerArgs += '-parameters'
+}

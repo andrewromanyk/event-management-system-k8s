@@ -1,0 +1,896 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/user/{id}": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ticket/{id}": {
+      "get": {
+        "tags": [
+          "ticket-controller"
+        ],
+        "operationId": "getTicket",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ticket-controller"
+        ],
+        "operationId": "updateTicket",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ticket-controller"
+        ],
+        "operationId": "deleteTicket",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/event/{id}": {
+      "get": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "getEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "updateEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "deleteBuilding",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/building/{id}": {
+      "get": {
+        "tags": [
+          "building-controller"
+        ],
+        "operationId": "getBuilding",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildingDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "building-controller"
+        ],
+        "operationId": "updateBuilding",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildingDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "building-controller"
+        ],
+        "operationId": "deleteBuilding_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "getUsers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "createNewUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ticket/": {
+      "get": {
+        "tags": [
+          "ticket-controller"
+        ],
+        "operationId": "getTickets",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TicketDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ticket-controller"
+        ],
+        "operationId": "createTicket",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/event/": {
+      "get": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "getEvents",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "createNewEvent",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/building/{id}/rate": {
+      "post": {
+        "tags": [
+          "building-controller"
+        ],
+        "operationId": "rateBuilding",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/building/": {
+      "get": {
+        "tags": [
+          "building-controller"
+        ],
+        "operationId": "getBuildings",
+        "parameters": [
+          {
+            "name": "capacity",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BuildingDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "building-controller"
+        ],
+        "operationId": "createNewBuilding",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildingDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/building/{buildingId}/{rating}": {
+      "get": {
+        "tags": [
+          "building-controller"
+        ],
+        "operationId": "getRated",
+        "parameters": [
+          {
+            "name": "buildingId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "rating",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "byte"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BuildingRatingDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserDto": {
+        "required": [
+          "firstName",
+          "id",
+          "lastName",
+          "userRole",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userRole": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "ORGANIZER",
+              "USER"
+            ]
+          },
+          "username": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "pattern": "^\\+?[0-9. ()-]{7,25}$",
+            "type": "string"
+          },
+          "age": {
+            "maximum": 120,
+            "minimum": 18,
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "EventDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventTitle": {
+            "type": "string"
+          },
+          "dateTimeStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateTimeEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "building": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string"
+          },
+          "numberOfTickets": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minAgeRestriction": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rating": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventRatingDto"
+            }
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserDto"
+            }
+          }
+        }
+      },
+      "EventRatingDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "event": {
+            "$ref": "#/components/schemas/EventDto"
+          },
+          "rating": {
+            "type": "string",
+            "format": "byte"
+          },
+          "author": {
+            "$ref": "#/components/schemas/UserDto"
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
+      },
+      "TicketDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserDto"
+          },
+          "event": {
+            "$ref": "#/components/schemas/EventDto"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "BuildingDto": {
+        "required": [
+          "address"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "address": {
+            "type": "string"
+          },
+          "hourlyRate": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "areaM2": {
+            "minimum": 10,
+            "type": "integer",
+            "format": "int32"
+          },
+          "capacity": {
+            "minimum": 10,
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "maxLength": 500,
+            "minLength": 0,
+            "pattern": "^[A-Za-zА-Яа-я0-9 ,.:;-]+|^$",
+            "type": "string"
+          },
+          "rating": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BuildingRatingDto"
+            }
+          }
+        }
+      },
+      "BuildingRatingDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rating": {
+            "type": "string",
+            "format": "byte"
+          },
+          "author": {
+            "$ref": "#/components/schemas/User"
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userRole": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "ORGANIZER",
+              "USER"
+            ]
+          },
+          "username": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    }
+  }
+}

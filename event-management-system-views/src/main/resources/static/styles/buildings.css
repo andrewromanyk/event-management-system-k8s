@@ -1,0 +1,36 @@
+.fullOutside{
+    width: 90vw;
+    padding: 20px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+}
+
+.fullOutside a, .fullOutside button{
+    width: 128px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.control-buttons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card{
+    display: block;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+}
+
+.building-link:hover{
+    cursor: pointer;
+    color: black;
+}
+
+.dimmed {
+    opacity: 0.5;
+}

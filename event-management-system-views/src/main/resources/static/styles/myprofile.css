@@ -1,0 +1,44 @@
+.fullOutside {
+    justify-content: center;
+}
+
+.information {
+    list-style: none;
+    font-family: Verdana, sans-serif;
+    text-align: center;
+}
+
+.logout {
+    margin-top: 50px;
+    text-align: center;
+}
+
+#logoutButton {
+    background-color: #1B1F23;
+    color: aliceblue;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#logoutButton:hover {
+    background-color: #C94F4F;
+}
+
+.edit-button {
+    background-color: darkorange;
+    color: aliceblue;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+    background-color: indianred;
+}

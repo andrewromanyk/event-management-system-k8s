@@ -1,0 +1,52 @@
+<html lang="ua"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<link rel="stylesheet" href="../static/styles/basic.css"
+      th:href="@{/styles/basic.css}">
+<header th:fragment="heading">
+        <h1 id=name>
+            Event
+            <br>
+            Manager
+        </h1>
+        <div class="middle-container">
+            <div id="icon-container" sec:authorize="isAuthenticated()">
+                <a href="/myprofile">
+                    <img id="user-icon" alt="user-icon" src="../static/blank-user.png"
+                         th:src="@{/blank-user.png}">
+                </a>
+            </div>
+            <div id="login-reg" sec:authorize="!isAuthenticated()">
+                <button class="nav-button" th:onclick="'location.href=\'' + @{/login} + '\''">Login</button>
+                <button class="nav-button" th:onclick="'location.href=\'' + @{/register} + '\''">Register</button>
+            </div>
+        </div>
+        <div id="header-navigation" sec:authorize="isAuthenticated()">
+            <button class="nav-button" th:onclick="'location.href=\'' + @{/building/} + '\''"
+                    sec:authorize="hasAuthority('ORGANIZER')">Buildings</button>
+            <button class="nav-button" th:onclick="'location.href=\'' + @{/event/} + '\''"
+                    sec:authorize="isAuthenticated()">Events</button>
+            <button class="nav-button" th:onclick="'location.href=\'' + @{/ticket/} + '\''"
+                    sec:authorize="isAuthenticated()">Tickets</button>
+            <button class="nav-button" th:onclick="'location.href=\'' + @{/user/} + '\''"
+                    sec:authorize="hasAuthority('ADMIN')">Users</button>
+        </div>
+        <a href="/main" class="icon-container">
+            <img id='icon' alt="Event Manager" src="../static/em-icon.png"
+                 th:src="@{/em-icon.png}">
+        </a>
+</header>
+
+<footer th:fragment="footing">
+    <ul class="footerList">
+        <li>
+            <a href="/login">Main Site</a>
+        </li>
+        <li>
+            <a href="/FAQ.html">FAQ</a>
+        </li>
+    </ul>
+</footer>
+
+</html>
