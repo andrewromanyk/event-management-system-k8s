@@ -37,7 +37,7 @@ public class GrpcServerConfig {
             havingValue = "true")
     @Bean(initMethod = "start", destroyMethod = "shutdown")
     public Server grpcServer(BuildingServer buildingService) throws SSLException {
-        if (mtlsEnabled) {
+        if (false) {
             System.out.println("Starting gRPC server with mTLS on port " + PORT);
 
             File certChain = new File(certChainPath);
@@ -54,8 +54,6 @@ public class GrpcServerConfig {
                     .addService(buildingService)
                     .build();
         } else {
-            System.out.println("⚠️  Starting gRPC server WITHOUT mTLS (plaintext) on port " + PORT);
-
             return ServerBuilder.forPort(PORT)
                     .addService(buildingService)
                     .build();
