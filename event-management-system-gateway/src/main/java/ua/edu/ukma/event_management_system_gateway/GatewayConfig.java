@@ -1,14 +1,13 @@
 package ua.edu.ukma.event_management_system_gateway;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.function.HandlerFilterFunction;
 import org.springframework.web.servlet.function.RouterFunction;
-import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 
-import java.util.function.Function;
 
 import static org.springframework.cloud.gateway.server.mvc.filter.AfterFilterFunctions.rewriteLocationResponseHeader;
 import static org.springframework.cloud.gateway.server.mvc.filter.BeforeFilterFunctions.*;
@@ -30,6 +29,22 @@ public class GatewayConfig {
 
     @Value("${gateway.inner.ip.admin}")
     private String adminPanelUrl;
+
+    private DiscoveryClient discoveryClient;
+
+    @Autowired
+    public GatewayConfig(DiscoveryClient discoveryClient) {
+        this.discoveryClient = discoveryClient;
+        // test print all services
+        System.out.println("Discovered services:");
+        discoveryClient.getServices().forEach(service -> {
+            System.out.println("Service: " + service);
+            discoveryClient.getInstances(service).forEach(instance -> {
+                System.out.println(" - Instance: " + instance.getUri());
+            });
+        });
+    }
+
 
     @Bean
     public RouterFunction<ServerResponse> gatewayRoutes() {
@@ -56,7 +71,7 @@ public class GatewayConfig {
 
                 .and(route("views")
                         .route(path("/**"), http())
-                        .before(uri(viewsServiceUrl))
+                        .before(uri(discoveryClient.getInstances("event-management-views").get(0).getUri()))
                         .before(preserveHostHeader())
                         .after(rewriteLocationResponseHeader())
                         .build());

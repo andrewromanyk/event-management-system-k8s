@@ -72,6 +72,7 @@ dependencies {
 	implementation 'io.grpc:grpc-protobuf:1.76.0'
 	implementation 'io.grpc:grpc-stub:1.76.0'
 	implementation 'com.google.protobuf:protobuf-java:4.33.0'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 }
 
 dependencyManagement {
