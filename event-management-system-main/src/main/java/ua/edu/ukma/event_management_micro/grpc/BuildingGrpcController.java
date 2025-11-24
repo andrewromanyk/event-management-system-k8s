@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ua.edu.ukma.event_management_micro.core.error.GrpcError;
 import ua.edu.ukma.event_management_system_building.grpc.Building;
 
 import java.util.ArrayList;
@@ -27,7 +28,6 @@ public class BuildingGrpcController {
         Building building = client.getBuildingById(id);
 
         String json = JsonFormat.printer()
-                .includingDefaultValueFields()
                 .print(building);
 
         return ResponseEntity.ok(json);
@@ -35,12 +35,17 @@ public class BuildingGrpcController {
 
     @GetMapping("/all-buildings")
     public ResponseEntity<String> streamAllBuildings() throws InvalidProtocolBufferException {
-        List<Building> buildings = client.streamAllBuildings();
+        List<Building> buildings;
+        try {
+            buildings = client.streamAllBuildings();
+        }
+        catch (Exception e) {
+            throw new GrpcError(e.getMessage());
+        }
         List<String> jsonItems = new ArrayList<>();
 
         for (Building b : buildings) {
             String json = JsonFormat.printer()
-                    .includingDefaultValueFields()
                     .print(b);
             jsonItems.add(json);
         }

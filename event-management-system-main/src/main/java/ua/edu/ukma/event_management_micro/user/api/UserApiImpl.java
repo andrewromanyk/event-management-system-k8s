@@ -21,7 +21,7 @@ public class UserApiImpl implements UserApi {
             userService.getUserById(userId);
             return true;
         }
-        catch (Exception e) {
+        catch (Exception _) {
             return false;
         }
     }

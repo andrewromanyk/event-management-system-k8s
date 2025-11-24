@@ -1,12 +1,9 @@
 package ua.edu.ukma.event_management_micro.event;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -15,13 +12,8 @@ import java.util.*;
 @RequestMapping("api/event")
 public class EventControllerApi {
 
-    private ModelMapper modelMapper;
     private EventService eventService;
 
-    @Autowired
-    public void setModelWrapper(ModelMapper modelMapper){
-        this.modelMapper = modelMapper;
-    }
 
     @Autowired
     public void setEventService(EventService eventService){

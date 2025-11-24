@@ -21,12 +21,12 @@ public interface UserClient {
     ResponseEntity<String> getToken(@RequestParam String username, @RequestParam String password);
 
     @PostMapping("/api/user")
-    ResponseEntity<?> createUser(UserDto userDto);
+    ResponseEntity<Void> createUser(UserDto userDto);
 
     //get all users
     @GetMapping("/api/user")
     List<UserDto> getAllUsers();
 
     @PutMapping("/api/user/{id}")
-    ResponseEntity<?> updateUser(@RequestParam Long id, @RequestBody UserDto userDto);
+    ResponseEntity<Void> updateUser(@RequestParam Long id, @RequestBody UserDto userDto);
 }

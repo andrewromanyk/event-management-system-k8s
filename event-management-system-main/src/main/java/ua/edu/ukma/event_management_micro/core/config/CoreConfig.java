@@ -15,9 +15,7 @@ public class CoreConfig {
     @Primary
     @Bean
     public ModelMapper modelMapper() {
-        ModelMapper mapperResult = new ModelMapper();
-
-        return mapperResult;
+        return new ModelMapper();
     }
 
     @Bean

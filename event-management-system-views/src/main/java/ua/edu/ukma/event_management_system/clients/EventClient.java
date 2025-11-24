@@ -4,7 +4,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import ua.edu.ukma.event_management_system.dto.EventDto;
 
-import javax.management.DescriptorKey;
 import java.util.List;
 
 @FeignClient(name = "event-client", url = "${feign.client.event.url}")

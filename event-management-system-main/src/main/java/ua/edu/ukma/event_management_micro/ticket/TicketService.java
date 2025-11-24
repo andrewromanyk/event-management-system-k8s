@@ -1,17 +1,14 @@
 package ua.edu.ukma.event_management_micro.ticket;
 
-import jakarta.jms.ObjectMessage;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpMethod;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import ua.edu.ukma.event_management_micro.core.client.BuildingClient;
 import ua.edu.ukma.event_management_micro.core.dto.BuildingDto;
-import ua.edu.ukma.event_management_micro.core.CoreService;
 import ua.edu.ukma.event_management_micro.core.dto.EmailDto;
 import ua.edu.ukma.event_management_micro.core.dto.LogEvent;
 import ua.edu.ukma.event_management_micro.core.dto.TicketReturnDto;
@@ -31,7 +28,6 @@ public class    TicketService {
     private EventApi eventApi;
     private TicketRepository ticketRepository;
     private ApplicationEventPublisher applicationEventPublisher;
-    private CoreService coreService;
     private JmsTemplate jmsTemplate;
     private JmsTemplate jmsTopicTemplate;
     private BuildingClient buildingClient;
@@ -52,10 +48,6 @@ public class    TicketService {
     @Autowired
     public void setJmsTopicTemplate(@Qualifier("jmsTopicTemplate") JmsTemplate jmsTopicTemplate) {
         this.jmsTopicTemplate = jmsTopicTemplate;
-    }
-    @Autowired
-    public void setCoreService(CoreService coreService) {
-        this.coreService = coreService;
     }
 
     @Autowired
@@ -159,7 +151,11 @@ public class    TicketService {
     }
 
     public int buildingCapacity(long buildingId) {
-        return buildingClient.getBuildingById(buildingId).getBody().getCapacity();
+        BuildingDto buildingDto = buildingClient.getBuildingById(buildingId).getBody();
+        if (buildingDto == null) {
+            return 0;
+        }
+        return buildingDto.getCapacity();
     }
 
 }

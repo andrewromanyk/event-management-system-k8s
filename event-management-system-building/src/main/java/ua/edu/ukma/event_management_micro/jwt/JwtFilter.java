@@ -30,7 +30,6 @@ public class JwtFilter extends OncePerRequestFilter {
 	private String secretPass;
 
 	private String secretHash;
-//	private UserDetailsService userDetailsService;
 
 
 	@Autowired
@@ -41,11 +40,6 @@ public class JwtFilter extends OncePerRequestFilter {
 	public void setJwtService(JwtService jwtService) {
 		this.jwtService = jwtService;
 	}
-
-//	@Autowired
-//	public void setUserDetailsService(UserDetailsService userDetailsService) {
-//		this.userDetailsService = userDetailsService;
-//	}
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -67,14 +61,14 @@ public class JwtFilter extends OncePerRequestFilter {
 				}
 			}
 			username = jwtService.extractUsername(token);
-		} catch (Exception e) {
+		} catch (Exception _) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
-		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-			if (jwtService.validateServer(token)) {
+		if (username != null
+				&& SecurityContextHolder.getContext().getAuthentication() == null
+				&& jwtService.validateServer(token)) {
 
 				if (secretHash == null) {
 					secretHash = passwordEncoder.encode(secretPass);
@@ -102,7 +96,6 @@ public class JwtFilter extends OncePerRequestFilter {
 						new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 				userPassToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				SecurityContextHolder.getContext().setAuthentication(userPassToken);
-			}
 		}
 		filterChain.doFilter(request, response);
 	}

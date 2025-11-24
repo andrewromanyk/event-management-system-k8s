@@ -2,12 +2,16 @@ package ua.edu.ukma.event_management_system_gateway;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.ServerResponse;
 
+
+import java.net.URI;
+import java.util.List;
 
 import static org.springframework.cloud.gateway.server.mvc.filter.AfterFilterFunctions.rewriteLocationResponseHeader;
 import static org.springframework.cloud.gateway.server.mvc.filter.BeforeFilterFunctions.*;
@@ -35,14 +39,6 @@ public class GatewayConfig {
     @Autowired
     public GatewayConfig(DiscoveryClient discoveryClient) {
         this.discoveryClient = discoveryClient;
-        // test print all services
-        System.out.println("Discovered services:");
-        discoveryClient.getServices().forEach(service -> {
-            System.out.println("Service: " + service);
-            discoveryClient.getInstances(service).forEach(instance -> {
-                System.out.println(" - Instance: " + instance.getUri());
-            });
-        });
     }
 
 
@@ -71,9 +67,19 @@ public class GatewayConfig {
 
                 .and(route("views")
                         .route(path("/**"), http())
-                        .before(uri(discoveryClient.getInstances("event-management-views").get(0).getUri()))
+                        .before(uri(getViewsServiceUri()))
                         .before(preserveHostHeader())
                         .after(rewriteLocationResponseHeader())
                         .build());
+    }
+
+    private URI getViewsServiceUri() {
+        List<ServiceInstance> instances = discoveryClient.getInstances("event-management-views");
+
+        if (instances == null || instances.isEmpty()) {
+            return URI.create(viewsServiceUrl);
+        }
+
+        return instances.getFirst().getUri();
     }
 }

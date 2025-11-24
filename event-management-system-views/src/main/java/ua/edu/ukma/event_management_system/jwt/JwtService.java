@@ -19,16 +19,10 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-//	private UserDetailsService userDetailsService;
 
 	@Value("${jwt.secret}")
 	private String setSecretString;
 	private byte[] secretKey;
-
-//	@Autowired
-//	public void setUserDetailsService(UserDetailsService userDetailsService) {
-//		this.userDetailsService = userDetailsService;
-//	}
 
 	@PostConstruct
 	public void init() {
@@ -37,19 +31,14 @@ public class JwtService {
 		}
 	}
 
-	public JwtService() {
+	public JwtService() throws NoSuchAlgorithmException {
 		if (setSecretString != null && !setSecretString.isBlank()) {
 			this.secretKey = setSecretString.getBytes();
 			return;
 		}
-		try {
-			KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
-			SecretKey key = keyGenerator.generateKey();
-			this.secretKey = key.getEncoded();
-		} catch (NoSuchAlgorithmException e) {
-			//Shouldn't happen
-			throw new RuntimeException(e);
-		}
+		KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
+		SecretKey key = keyGenerator.generateKey();
+		this.secretKey = key.getEncoded();
 	}
 	public String extractUsername(String token) {
 		return extractClaims(token).getSubject();

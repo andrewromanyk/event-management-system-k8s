@@ -13,7 +13,6 @@ import java.util.*;
 @RequestMapping("api/building")
 public class BuildingControllerApi {
 
-    private ModelMapper modelMapper;
     private BuildingService buildingService;
 
     @Autowired
@@ -47,7 +46,7 @@ public class BuildingControllerApi {
     }
 
     @PostMapping
-    public ResponseEntity<?> createNewBuilding(@RequestBody BuildingDto buildingDto,
+    public ResponseEntity<Object> createNewBuilding(@RequestBody BuildingDto buildingDto,
                                                BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             Map<String, String> errors = new HashMap<>();
@@ -62,7 +61,7 @@ public class BuildingControllerApi {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBuilding(@PathVariable long id, @RequestBody BuildingDto buildingDto,
+    public ResponseEntity<Object> updateBuilding(@PathVariable long id, @RequestBody BuildingDto buildingDto,
                                             BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             Map<String, String> errors = new HashMap<>();

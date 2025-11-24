@@ -33,9 +33,6 @@
                                 <span th:text="${events[ticket.event].eventTitle}">title</span>
                             </a>
                         </h5>
-<!--                        <p class="card-text">-->
-<!--                            <strong>Building Address:</strong> <span th:text="${events[ticket.event].building.address}"></span>-->
-<!--                        </p>-->
                         <p class="card-text">
                             <strong>Event End Date:</strong>
                             <span th:text="${#temporals.format(events[ticket.event].dateTimeEnd, 'dd MMM yyyy HH:mm')}"></span>

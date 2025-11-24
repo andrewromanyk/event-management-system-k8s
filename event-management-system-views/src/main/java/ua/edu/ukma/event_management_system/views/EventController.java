@@ -2,7 +2,6 @@ package ua.edu.ukma.event_management_system.views;
 
 import org.slf4j.Logger;
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.edu.ukma.event_management_system.clients.BuildingClient;
 import ua.edu.ukma.event_management_system.clients.EventClient;
@@ -22,9 +20,6 @@ import ua.edu.ukma.event_management_system.dto.EventDto;
 import ua.edu.ukma.event_management_system.dto.TicketDto;
 import ua.edu.ukma.event_management_system.dto.UserDto;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -32,13 +27,12 @@ import java.util.*;
 @RequestMapping("event")
 public class EventController {
 
-	private static final String DATA_IMAGE = "data:image/png;base64,";
-	private static final String STOCK_PHOTO = "src/main/resources/stock_photo.jpg";
 	private static final String EVENT_FORM = "events/event-form";
 	private static final String EVENT = "event";
 	private static final String ERROR = "error";
 	private static final String REDIRECT_EVENT = "redirect:/event/";
 	private static final String BUILDINGS = "buildings";
+	private static final String REDIRECT_LOGIN = "redirect:/login";
 
 	private EventClient eventClient;
 	private UserClient userClient;
@@ -65,6 +59,11 @@ public class EventController {
 	public String get(Model model) {
 		UserDetails details = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDto user = userClient.getUser(details.getUsername()).getBody();
+
+		if (user == null) {
+			return REDIRECT_LOGIN;
+		}
+
 		List<EventDto> events = switch (user.getUserRole()) {
             case ADMIN -> eventClient.getAllEvents();
             case ORGANIZER -> eventClient.getEventsForOrganizer(user.getId());
@@ -76,7 +75,7 @@ public class EventController {
 	}
 
 	@GetMapping("/{id}")
-	public String get(@PathVariable long id, Model model) throws IOException {
+	public String get(@PathVariable long id, Model model) {
 		EventDto event = eventClient.getEventById(id);
 		UserDetails detail;
 		UserDto user = null;
@@ -130,6 +129,11 @@ public class EventController {
 		}
 		UserDetails details = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDto user = userClient.getUser(details.getUsername()).getBody();
+
+		if (user == null) {
+			return REDIRECT_LOGIN;
+		}
+
 		eventDto.setCreatorId(user.getId());
 		eventClient.createNewEvent(eventDto);
 		return REDIRECT_EVENT;
@@ -150,6 +154,10 @@ public class EventController {
 	public String buyTicket(@PathVariable long id, Model model) {
 		UserDetails details = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDto user = userClient.getUser(details.getUsername()).getBody();
+
+		if (user == null) {
+			return REDIRECT_LOGIN;
+		}
 
 		EventDto event = eventClient.getEventById(id);
 
@@ -195,6 +203,11 @@ public class EventController {
 		}
 		UserDetails details = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDto user = userClient.getUser(details.getUsername()).getBody();
+
+		if (user == null) {
+			return REDIRECT_LOGIN;
+		}
+
 		event.setCreatorId(user.getId());
 		eventClient.updateEvent(id, event);
 		return REDIRECT_EVENT;

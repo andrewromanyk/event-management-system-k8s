@@ -33,8 +33,6 @@ public class GrpcChannelConfig {
     @Bean
     public ManagedChannel buildingChannel() throws SSLException {
         if (mtlsEnabled) {
-            System.out.println("Creating gRPC channel with mTLS to " + ADDRESS + ":" + PORT);
-
             SslContext sslContext = GrpcSslContexts.forClient()
                     .trustManager(new File(trustCertPath))
                     .keyManager(new File(clientCertPath), new File(clientKeyPath))
@@ -44,7 +42,6 @@ public class GrpcChannelConfig {
                     .sslContext(sslContext)
                     .build();
         } else {
-            System.out.println("Creating gRPC channel WITHOUT mTLS to " + ADDRESS + ":" + PORT);
             return NettyChannelBuilder.forAddress(ADDRESS, PORT)
                     .usePlaintext()
                     .build();

@@ -1,6 +1,5 @@
 package ua.edu.ukma.event_management_micro.user.jwt;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +12,6 @@ import ua.edu.ukma.event_management_micro.user.UserService;
 public class AuthControllerApi {
 
 	private UserService userService;
-	private JwtService jwtService;
-
-	@Autowired
-	public void setJwtService(JwtService jwtService) {
-		this.jwtService = jwtService;
-	}
 
 	@Autowired
 	public void setUserService(UserService userService) {

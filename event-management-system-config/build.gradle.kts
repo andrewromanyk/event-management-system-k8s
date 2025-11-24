@@ -19,13 +19,12 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.cloud:spring-cloud-config-server:4.3.0")
+	implementation("de.codecentric:spring-boot-admin-starter-client")
+	implementation("org.springframework.cloud:spring-cloud-config-server")
 
 	implementation("org.springframework.boot:spring-boot-starter")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-	implementation("de.codecentric:spring-boot-admin-starter-client:3.5.5")
 }
 
 dependencyManagement {

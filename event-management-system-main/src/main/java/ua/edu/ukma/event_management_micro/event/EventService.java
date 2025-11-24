@@ -3,12 +3,8 @@ package ua.edu.ukma.event_management_micro.event;
 import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import ua.edu.ukma.event_management_micro.core.dto.BuildingDto;
-import ua.edu.ukma.event_management_micro.core.CoreService;
 import ua.edu.ukma.event_management_micro.core.dto.LogEvent;
 import ua.edu.ukma.event_management_micro.grpc.BuildingGrpcClient;
 import ua.edu.ukma.event_management_micro.user.api.UserApi;
@@ -26,13 +22,13 @@ public class EventService {
     private final EventRepository eventRepository;
     private final UserApi userApi;
     private ApplicationEventPublisher applicationEventPublisher;
-    private CoreService coreService;
 
-    @Value("${building.service.url}")
-    private String buildingServiceUrl;
+    private BuildingGrpcClient buildingGrpcClient;
 
     @Autowired
-    private BuildingGrpcClient buildingGrpcClient;
+    public void setBuildingGrpcClient(BuildingGrpcClient buildingGrpcClient) {
+        this.buildingGrpcClient = buildingGrpcClient;
+    }
 
     @Autowired
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
@@ -42,11 +38,10 @@ public class EventService {
 
     @Autowired
     public EventService(ModelMapper modelMapper, EventRepository eventRepository,
-                        UserApi userApi, CoreService coreService) {
+                        UserApi userApi) {
         this.modelMapper = modelMapper;
         this.eventRepository = eventRepository;
         this.userApi = userApi;
-        this.coreService = coreService;
     }
 
     public List<EventDto> getAllEvents(){
@@ -70,7 +65,6 @@ public class EventService {
 
     public void createEvent(EventDto event) {
         // Ensures the building with such id exists before saving the event
-        // TODO: write normal validation flow
         EventEntity toSave = toEntity(event);
         Long buildingId = event.getBuildingId();
         Long creatorId = event.getCreatorId();
@@ -101,7 +95,6 @@ public class EventService {
                 existingEvent.setEventTitle(updatedEvent.getEventTitle());
                 existingEvent.setDateTimeStart(updatedEvent.getDateTimeStart());
                 existingEvent.setDateTimeEnd(updatedEvent.getDateTimeEnd());
-//                existingEvent.setImage(updatedEvent.getImage());
                 existingEvent.setDescription(updatedEvent.getDescription());
                 existingEvent.setNumberOfTickets(updatedEvent.getNumberOfTickets());
                 existingEvent.setMinAgeRestriction(updatedEvent.getMinAgeRestriction());
@@ -155,9 +148,14 @@ public class EventService {
     }
 
     private boolean buildingExists(long buildingId) {
-        return buildingGrpcClient.streamAllBuildings().stream()
-                .map(Building::getId)
-                .anyMatch(id -> id == buildingId);
+        try {
+            return buildingGrpcClient.streamAllBuildings().stream()
+                    .map(Building::getId)
+                    .anyMatch(id -> id == buildingId);
+        }
+        catch (Exception _) {
+            return false;
+        }
     }
 
     @PostConstruct

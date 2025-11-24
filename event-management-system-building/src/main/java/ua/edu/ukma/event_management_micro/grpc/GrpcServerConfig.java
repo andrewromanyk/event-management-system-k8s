@@ -1,8 +1,6 @@
 package ua.edu.ukma.event_management_micro.grpc;
 
 import io.grpc.Server;
-import io.grpc.ServerBuilder;
-import io.grpc.TlsServerCredentials;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
@@ -37,26 +35,18 @@ public class GrpcServerConfig {
             havingValue = "true")
     @Bean(initMethod = "start", destroyMethod = "shutdown")
     public Server grpcServer(BuildingServer buildingService) throws SSLException {
-        if (false) {
-            System.out.println("Starting gRPC server with mTLS on port " + PORT);
+        File certChain = new File(certChainPath);
+        File key = new File(privateKeyPath);
+        File trustCert = new File(trustCertPath);
 
-            File certChain = new File(certChainPath);
-            File key = new File(privateKeyPath);
-            File trustCert = new File(trustCertPath);
+        SslContext sslContext = GrpcSslContexts.forServer(certChain, key)
+                .trustManager(trustCert)
+                .clientAuth(REQUIRE)
+                .build();
 
-            SslContext sslContext = GrpcSslContexts.forServer(certChain, key)
-                    .trustManager(trustCert)
-                    .clientAuth(REQUIRE)
-                    .build();
-
-            return NettyServerBuilder.forPort(PORT)
-                    .sslContext(sslContext)
-                    .addService(buildingService)
-                    .build();
-        } else {
-            return ServerBuilder.forPort(PORT)
-                    .addService(buildingService)
-                    .build();
-        }
+        return NettyServerBuilder.forPort(PORT)
+                .sslContext(sslContext)
+                .addService(buildingService)
+                .build();
     }
 }

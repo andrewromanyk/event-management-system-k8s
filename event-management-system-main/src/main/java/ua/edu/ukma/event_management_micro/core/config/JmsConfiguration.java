@@ -1,13 +1,9 @@
 package ua.edu.ukma.event_management_micro.core.config;
 
 import jakarta.jms.ConnectionFactory;
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jms.annotation.EnableJms;
@@ -35,21 +31,11 @@ public class JmsConfiguration {
         BrokerService broker = new BrokerService();
         broker.addConnector("tcp://0.0.0.0:61616");
         broker.setPersistent(false);
-//        broker.setUseJmx(false);
         broker.setBrokerName("main-service-broker");
         broker.start();
         return broker;
     }
 
-//    @ConditionalOnProperty(
-//            name = "activemq.custom.enable",
-//            havingValue = "true",
-//            matchIfMissing = true
-//    )
-//    @Bean
-//    public ConnectionFactory connectionFactory() {
-//        return new ActiveMQConnectionFactory("tcp://0.0.0.0:61616");
-//    }
 
     @Bean
     @Primary
@@ -75,7 +61,6 @@ public class JmsConfiguration {
         converter.setTargetType(MessageType.TEXT);
         converter.setTypeIdPropertyName("_type");
 
-        // Map logical type names to actual classes
         Map<String, Class<?>> typeIdMappings = new HashMap<>();
         typeIdMappings.put("EmailDto", EmailDto.class);
         typeIdMappings.put("TicketReturnDto", TicketReturnDto.class);

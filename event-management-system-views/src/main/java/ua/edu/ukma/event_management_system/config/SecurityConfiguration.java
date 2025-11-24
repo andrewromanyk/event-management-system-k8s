@@ -16,7 +16,6 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ua.edu.ukma.event_management_system.jwt.JwtFilter;
@@ -31,17 +30,11 @@ public class SecurityConfiguration {
 	private static final String ADMIN = "ADMIN";
 
 	private UserDetailsService userDetailsService;
-	private PasswordEncoder passwordEncoder;
 	private JwtFilter jwtFilter;
 
 	@Autowired
 	public void setUserDetailsService(UserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;
-	}
-
-	@Autowired
-	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Autowired
@@ -91,10 +84,7 @@ public class SecurityConfiguration {
 
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-		provider.setPasswordEncoder(passwordEncoder);
-		provider.setUserDetailsService(userDetailsService);
-		return provider;
+        return new DaoAuthenticationProvider(userDetailsService);
 	}
 
 	@Bean

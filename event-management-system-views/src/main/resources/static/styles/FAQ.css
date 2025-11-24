@@ -17,6 +17,7 @@ footer {
     text-align: center;
     padding: 10px 0;
     margin-top: auto;
+    bottom: 0;
 }
 
 .footerList {
@@ -26,6 +27,10 @@ footer {
     display: flex;
     justify-content: center;
     gap: 15px;
+    font-family: Verdana, sans-serif;
+    color: aliceblue;
+    font-size: 12px;
+    text-align: center;
 }
 
 .footerList li {
@@ -113,12 +118,6 @@ header {
     align-items: center; /* Align buttons vertically */
 }
 
-/*
-#login-reg {
-    position: absolute;
-    text-align: center;
-    width: 100%;
-}*/
 
 #user-icon {
     width: 50px;
@@ -129,13 +128,6 @@ header {
     cursor: pointer;
 }
 
-/*#user-icon {
-    display: inline-block;
-    margin: 0 auto;
-    padding-top: 20px;
-    width: 50px;
-    height: 50px;
-}*/
 
 button{
     color: white;
@@ -183,12 +175,6 @@ button:hover {
     color: black;
 }
 
-footer{
-    width: 100%;
-    background-color: #1B1F23;
-    bottom: 0;
-}
-
 li{
     list-style: none;
     font-family: Verdana, sans-serif;
@@ -201,13 +187,4 @@ li{
 a{
     text-decoration: none;
     color: inherit;
-}
-
-.footerList{
-    list-style: none;
-    font-family: Verdana, sans-serif;
-    color: aliceblue;
-    padding-left: 10px;
-    font-size: 12px;
-    text-align: center;
 }

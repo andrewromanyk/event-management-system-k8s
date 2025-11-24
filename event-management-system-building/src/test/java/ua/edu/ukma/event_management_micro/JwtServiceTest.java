@@ -71,15 +71,4 @@ class JwtServiceTest {
                 .statusCode(200);
     }
 
-//    @Test
-//    @Order(3)
-//    void testJwtAccessFail() {
-//        token = token.substring(0, token.length() - 1) + "X";
-//        with()
-//                .header("Authorization", "Bearer " + token)
-//                .contentType("application/json")
-//                .get("/api/building/1")
-//                .then()
-//                .statusCode(403);
-//    }
 }

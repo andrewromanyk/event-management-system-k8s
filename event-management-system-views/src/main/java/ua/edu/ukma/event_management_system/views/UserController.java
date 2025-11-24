@@ -1,7 +1,6 @@
 package ua.edu.ukma.event_management_system.views;
 
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,11 +46,20 @@ public class UserController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDto currentUser = userClient.getUser(userDetails.getUsername()).getBody();
 
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
         if (currentUser.getUserRole() != UserRole.ADMIN && currentUser.getId() != id) {
             model.addAttribute("errors", List.of("You cannot modify user that is not you!"));
             return "error";
         }
         UserDto user = userClient.getUserById(id).getBody();
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
         String formattedDate = user.getDateOfBirth().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         model.addAttribute("dateOfBirthString", formattedDate);
         model.addAttribute("userDto", user);

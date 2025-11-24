@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,13 +27,13 @@ import org.springframework.test.web.servlet.MvcResult;
 @TestPropertySource(properties = {
         "spring.activemq.broker-url=disabled"
 })
-public class MIMETest {
+class MIMETest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void testGetUserJson() throws Exception {
+    void testGetUserJson() throws Exception {
 
         MvcResult result = this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -53,7 +52,7 @@ public class MIMETest {
     }
 
     @Test
-    public void testGetUserHTML() throws Exception {
+    void testGetUserHTML() throws Exception {
 
         MvcResult result = this.mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -72,7 +71,7 @@ public class MIMETest {
     }
 
     @Test
-    public void testGenLogoPNG() throws Exception {
+    void testGenLogoPNG() throws Exception {
         String location = "/api/static/icon";
         this.mockMvc.perform(get(location)
                 .accept(MediaType.IMAGE_PNG))

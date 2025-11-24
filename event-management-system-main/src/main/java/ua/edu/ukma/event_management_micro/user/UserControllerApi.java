@@ -27,8 +27,8 @@ public class UserControllerApi {
             UserDto userDto = userService.getUserById(id);
             return ResponseEntity.ok(userDto);
         }
-        catch (Exception e) {
-            return ResponseEntity.noContent().build();
+        catch (Exception _) {
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -47,8 +47,8 @@ public class UserControllerApi {
         try {
             UserDto userDto = userService.getUserByUsername(username);
             return ResponseEntity.ok(userDto);
-        } catch (Exception e) {
-            return ResponseEntity.noContent().build();
+        } catch (Exception _) {
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -92,7 +92,7 @@ public class UserControllerApi {
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<?> createNewUser(@RequestBody UserDto userDto, BindingResult bindingResult) {
+    public ResponseEntity<Object> createNewUser(@RequestBody UserDto userDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(error ->
@@ -106,7 +106,7 @@ public class UserControllerApi {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateUser(@PathVariable long id, @RequestBody UserDto userDto, BindingResult bindingResult) {
+    public ResponseEntity<Map<String, String>> updateUser(@PathVariable long id, @RequestBody UserDto userDto, BindingResult bindingResult) {
         try {
             if (bindingResult.hasErrors()) {
                 Map<String, String> errors = new HashMap<>();

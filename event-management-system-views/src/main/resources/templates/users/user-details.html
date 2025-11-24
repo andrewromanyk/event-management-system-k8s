@@ -24,10 +24,6 @@
 
     <div class="row w-100">
         <div class="control-buttons" sec:authorize="hasAuthority('ADMIN')">
-<!--            <form th:action="@{~/api/user/{id}(id=${user.id})}" method="post">-->
-<!--                <input type="hidden" name="_method" value="DELETE">-->
-<!--                <button type="submit" class="btn btn-danger btn-sm">Delete</button>-->
-<!--            </form>-->
             <a th:href="@{/user/{id}/edit(id=${user.id})}" role="button" class="btn btn-warning btn-sm">Update</a>
         </div>
         <div class="col-12 text-center p-1">

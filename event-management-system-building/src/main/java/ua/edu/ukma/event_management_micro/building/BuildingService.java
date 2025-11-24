@@ -86,8 +86,6 @@ public class BuildingService {
 
     public boolean buildingExists(Long buildingId) {
         return buildingRepository.existsById(buildingId);
-//                .orElseThrow(() -> new NoSuchElementException("Building not found: " + buildingId));
-//              .orElseGet(() -> buildingRepository.save(building));
     }
 
     private BuildingDto toDomain(BuildingEntity building) {

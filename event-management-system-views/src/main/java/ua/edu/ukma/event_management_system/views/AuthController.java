@@ -35,9 +35,13 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<String> loginUser(@RequestParam String username, @RequestParam String password, Model model) {
+    public ResponseEntity<String> loginUser(@RequestParam String username, @RequestParam String password) {
         ResponseEntity<String> response = userClient.getToken(username, password);
         String token = response.getBody();
+
+        if (token == null || token.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
 
         ResponseCookie cookie = ResponseCookie.from("jwtToken", token)
                 .httpOnly(true)

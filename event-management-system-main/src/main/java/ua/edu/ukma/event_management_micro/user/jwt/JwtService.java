@@ -4,16 +4,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -26,16 +19,10 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-//	private UserDetailsService userDetailsService;
-
 	@Value("${jwt.secret}")
 	private String setSecretString;
 	private byte[] secretKey;
 
-//	@Autowired
-//	public void setUserDetailsService(UserDetailsService userDetailsService) {
-//		this.userDetailsService = userDetailsService;
-//	}
 
 	@PostConstruct
 	public void init() {
@@ -44,19 +31,14 @@ public class JwtService {
 		}
 	}
 
-	public JwtService() {
+	public JwtService() throws NoSuchAlgorithmException {
 		if (setSecretString != null && !setSecretString.isBlank()) {
 			this.secretKey = setSecretString.getBytes();
 			return;
 		}
-		try {
-			KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
-			SecretKey key = keyGenerator.generateKey();
-			this.secretKey = key.getEncoded();
-		} catch (NoSuchAlgorithmException e) {
-			//Shouldn't happen
-			throw new RuntimeException(e);
-		}
+		KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
+		SecretKey key = keyGenerator.generateKey();
+		this.secretKey = key.getEncoded();
 	}
 	public String extractUsername(String token) {
 		return extractClaims(token).getSubject();

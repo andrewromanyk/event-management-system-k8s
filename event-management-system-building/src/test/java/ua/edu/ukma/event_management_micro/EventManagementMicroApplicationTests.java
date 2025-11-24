@@ -8,6 +8,7 @@ class EventManagementMicroApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// Test to ensure the Spring application context loads successfully
 	}
 
 }

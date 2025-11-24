@@ -17,10 +17,10 @@ public interface BuildingClient {
     List<BuildingDto> getAllBuildings();
 
     @PostMapping("/api/building")
-    ResponseEntity<?> createNewBuilding(@RequestBody BuildingDto buildingDto);
+    ResponseEntity<Void> createNewBuilding(@RequestBody BuildingDto buildingDto);
 
     @PutMapping("/api/building/{id}")
-    ResponseEntity<?> updateBuilding(@PathVariable Long id, @RequestBody BuildingDto buildingDto);
+    ResponseEntity<Void> updateBuilding(@PathVariable Long id, @RequestBody BuildingDto buildingDto);
 
     @DeleteMapping("/api/building/{id}")
     ResponseEntity<Void> deleteBuilding(@PathVariable Long id);

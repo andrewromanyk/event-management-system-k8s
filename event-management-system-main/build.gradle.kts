@@ -65,23 +65,15 @@ dependencies {
 	implementation("org.postgresql:postgresql:42.7.8")
 
 	implementation("io.jsonwebtoken:jjwt-api:0.13.0")
-	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
-	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
 
 	implementation("org.modelmapper:modelmapper:3.2.4")
 
 	implementation("org.hibernate.validator:hibernate-validator")
 
-	compileOnly("org.projectlombok:lombok")
-	annotationProcessor("org.projectlombok:lombok")
-
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	implementation("de.codecentric:spring-boot-admin-starter-client:3.5.5")
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-	implementation("de.codecentric:spring-boot-admin-starter-client:3.5.5")
 
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	implementation("org.springframework.cloud:spring-cloud-starter-config:4.3.0")
@@ -89,11 +81,22 @@ dependencies {
 	implementation("io.grpc:grpc-netty-shaded:1.76.0")
 	implementation("io.grpc:grpc-protobuf:1.76.0")
 	implementation("io.grpc:grpc-stub:1.76.0")
+
 	implementation("com.google.protobuf:protobuf-java:4.33.0")
 	implementation("com.google.protobuf:protobuf-java-util:4.33.0")
 
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
+
 	testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner")
 	testImplementation("io.projectreactor:reactor-core")
+
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	compileOnly("org.projectlombok:lombok")
+	annotationProcessor("org.projectlombok:lombok")
 }
 
 dependencyManagement {

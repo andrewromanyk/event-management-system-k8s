@@ -5,7 +5,7 @@ import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 import org.springframework.stereotype.Service;
-import org.xml.sax.ErrorHandler;
+import ua.edu.ukma.event_management_micro.core.error.GrpcError;
 import ua.edu.ukma.event_management_system_building.grpc.*;
 
 import java.util.ArrayList;
@@ -35,13 +35,13 @@ public class BuildingGrpcClient {
             return blockingStub.getBuildingById(request);
         } catch (StatusRuntimeException e) {
             if (e.getStatus().getCode() == Status.Code.NOT_FOUND) {
-                throw new RuntimeException(e.getMessage());
+                throw new GrpcError(e.getMessage());
             }
             throw e;
         }
     }
 
-    public List<Building> streamAllBuildings() {
+    public List<Building> streamAllBuildings() throws InterruptedException {
         List<Building> result = new ArrayList<>();
         final Throwable[] errorHandler = new Throwable[1];
 
@@ -66,16 +66,13 @@ public class BuildingGrpcClient {
 
         asyncStub.streamAllBuildings(Empty.getDefaultInstance(), observer);
 
-        try {
-            latch.await();
-        } catch (InterruptedException e){
-            throw new RuntimeException(e);
-        }
+
+        latch.await();
 
         if (errorHandler[0] != null) {
             StatusRuntimeException statusEx = (StatusRuntimeException) errorHandler[0];
             if (statusEx.getStatus().getCode() == Status.Code.NOT_FOUND) {
-                throw new RuntimeException(statusEx.getMessage());
+                throw new GrpcError(statusEx.getMessage());
             }
         }
 

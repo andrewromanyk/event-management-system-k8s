@@ -36,9 +36,6 @@ public class EventEntity {
     @Column(nullable = false)
     private int minAgeRestriction;
 
-//    @Lob
-//    @Column(name = "event_image")
-//    private byte[] image;
 
     @Column
     private Long creatorId;
@@ -46,16 +43,5 @@ public class EventEntity {
     @Column(nullable = false)
     private double price;
 
-    public EventEntity(String eventTitle, LocalDateTime dateTimeStart, LocalDateTime dateTimeEnd,
-                       String description, int numberOfTickets, int minAgeRestriction, byte[] image,
-                       double price) {
-        this.eventTitle = eventTitle;
-        this.dateTimeStart = dateTimeStart;
-        this.dateTimeEnd = dateTimeEnd;
-        this.description = description;
-        this.numberOfTickets = numberOfTickets;
-        this.minAgeRestriction = minAgeRestriction;
-//        this.image = image;
-        this.price = price;
-    }
+
 }

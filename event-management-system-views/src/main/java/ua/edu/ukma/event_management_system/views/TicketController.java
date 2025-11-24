@@ -43,6 +43,11 @@ public class TicketController {
 	public String getAll(Model model) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDto user = userClient.getUser(userDetails.getUsername()).getBody();
+
+		if (user == null) {
+			return "redirect:/login";
+		}
+
 		List<TicketDto> tickets = switch (user.getUserRole()) {
 			case ADMIN -> ticketClient.getAllTickets();
 			case ORGANIZER -> {
@@ -73,6 +78,10 @@ public class TicketController {
 	public String delete(@PathVariable long id) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDto currentUser = userClient.getUser(userDetails.getUsername()).getBody();
+
+		if (currentUser == null) {
+			return "redirect:/login";
+		}
 
 		TicketDto ticketToDelete = ticketClient.getTicketById(id);
 

@@ -19,9 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private static final String ORGANIZER = "ORGANIZER";
-    private static final String USER = "USER";
-    private static final String ADMIN = "ADMIN";
 
     private UserDetailsService userDetailsService;
     private JwtFilter jwtFilter;
@@ -51,7 +48,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated())
-//				.httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout(LogoutConfigurer::permitAll)

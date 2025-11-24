@@ -7,8 +7,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/email")
 public class EmailController {
-    @Autowired
+
     private EmailService emailService;
+
+    @Autowired
+    public void setEmailService(EmailService emailService) {
+        this.emailService = emailService;
+    }
 
     @PostMapping("/send-simple")
     public ResponseEntity<String> sendSimpleEmail(@RequestBody EmailDto emailDto) {

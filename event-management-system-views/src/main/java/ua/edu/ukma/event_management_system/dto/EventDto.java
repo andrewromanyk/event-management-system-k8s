@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,8 +18,6 @@ public class EventDto {
     private String description;
     private Integer numberOfTickets;
     private Integer minAgeRestriction;
-//    private List<UserDto> users;
-//    private byte[] image;
     private Long creatorId;
     private Double price;
 }

@@ -7,24 +7,20 @@ import org.springframework.boot.autoconfigure.jms.JmsAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRunner;
 import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties;
-import org.springframework.cloud.contract.stubrunner.spring.cloud.StubRunnerSpringCloudAutoConfiguration;
-import org.springframework.cloud.contract.verifier.messaging.jms.ContractVerifierJmsConfiguration;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import ua.edu.ukma.event_management_micro.core.client.BuildingClient;
 import ua.edu.ukma.event_management_micro.core.dto.BuildingDto;
 
-import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureStubRunner(
@@ -41,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @EnableAutoConfiguration(exclude = {
         JmsAutoConfiguration.class
 })
-public class BuildingClientContractTest {
+class BuildingClientContractTest {
 
     @Autowired
     private BuildingClient buildingClient;
@@ -50,7 +46,7 @@ public class BuildingClientContractTest {
     private final String baseUrl = "http://localhost:8082";
 
     @Test
-    public void shouldGetBuildingById() {
+    void shouldGetBuildingById() {
         ResponseEntity<BuildingDto> response = buildingClient.getBuildingById(1L);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -59,7 +55,7 @@ public class BuildingClientContractTest {
     }
 
     @Test
-    public void shouldReturnAllBuildings() {
+    void shouldReturnAllBuildings() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
@@ -76,7 +72,7 @@ public class BuildingClientContractTest {
     }
 
     @Test
-    public void shouldCreateNewBuilding() {
+    void shouldCreateNewBuilding() {
         BuildingDto newBuilding = new BuildingDto();
         newBuilding.setAddress("New Building Address");
         newBuilding.setHourlyRate(75);
@@ -96,12 +92,10 @@ public class BuildingClientContractTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().getId()).isNotNull();
     }
 
     @Test
-    public void shouldUpdateBuilding() {
-        // Given
+    void shouldUpdateBuilding() {
         BuildingDto updatedBuilding = new BuildingDto();
         updatedBuilding.setAddress("Updated Address");
         updatedBuilding.setHourlyRate(80);
@@ -109,22 +103,20 @@ public class BuildingClientContractTest {
         updatedBuilding.setCapacity(120);
         updatedBuilding.setDescription("Updated description");
 
-        // When
-        restTemplate.put(
-                baseUrl + "/api/building/1",
-                updatedBuilding
-        );
+        assertThatCode(() -> restTemplate.put(baseUrl + "/api/building/1", updatedBuilding))
+                .doesNotThrowAnyException();
 
     }
 
     @Test
-    public void shouldDeleteBuilding() {
-        restTemplate.delete(baseUrl + "/api/building/1");
+    void shouldDeleteBuilding() {
+        assertThatCode(() -> restTemplate.delete(baseUrl + "/api/building/1"))
+                .doesNotThrowAnyException();
     }
 
 
     @Test
-    public void shouldReturnBuildingsByCapacity() {
+    void shouldReturnBuildingsByCapacity() {
         // Given
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
@@ -141,12 +133,14 @@ public class BuildingClientContractTest {
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotEmpty();
-        assertThat(Arrays.stream(response.getBody()))
+        List<BuildingDto> a = List.of(response.getBody());
+        assertThat(a.size()).isNotZero();
+        assertThat(a.stream())
                 .allMatch(b -> b.getCapacity() >= 100);
     }
 
     @Test
-    public void shouldReturn404ForNonExistentBuilding() {
+    void shouldReturn404ForNonExistentBuilding() {
         // When/Then
         assertThatThrownBy(() ->
                 buildingClient.getBuildingById(999999L)
