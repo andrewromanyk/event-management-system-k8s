@@ -19,9 +19,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(request -> request
-//                        .requestMatchers("/**")
-//                            .permitAll()
-
+                        .requestMatchers("/assets/**", "/css/**", "/js/**", "/images/**")
+                            .permitAll()
                         .requestMatchers("/instances/**")
                             .permitAll()
                         .requestMatchers("/health/**")
