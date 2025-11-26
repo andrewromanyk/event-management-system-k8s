@@ -7,7 +7,6 @@ Contract.make {
 
     request {
         method GET()
-        // This username exists in your UserService.setupData()
         url("/api/user/user")
         headers {
             contentType(applicationJson())
@@ -20,7 +19,6 @@ Contract.make {
             contentType(applicationJson())
         }
         body([
-                // IDs might vary depending on insertion order, but usually 'user' is 2 (after admin)
                 id: $(anyNumber()),
                 username: "user",
                 userRole: "USER",

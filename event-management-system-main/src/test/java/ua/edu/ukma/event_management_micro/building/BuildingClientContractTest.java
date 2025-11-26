@@ -1,4 +1,4 @@
-package ua.edu.ukma.event_management_micro.contracts.building;
+package ua.edu.ukma.event_management_micro.building;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

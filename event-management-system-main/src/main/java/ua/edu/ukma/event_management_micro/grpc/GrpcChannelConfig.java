@@ -14,8 +14,10 @@ import java.io.File;
 
 @Configuration
 public class GrpcChannelConfig {
-    static final String ADDRESS = "localhost";
     static final int PORT = 9090;
+
+    @Value("${custom.grpc.address:localhost}")
+    private String ADDRESS;
 
     @Value("${grpc.client.mtls.enabled:false}")
     private boolean mtlsEnabled;

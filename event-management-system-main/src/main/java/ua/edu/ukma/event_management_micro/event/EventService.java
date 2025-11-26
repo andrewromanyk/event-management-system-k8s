@@ -70,7 +70,7 @@ public class EventService {
         Long creatorId = event.getCreatorId();
         if (buildingId != null
                 && creatorId != null
-                && buildingExists(buildingId)
+//                && buildingExists(buildingId)
                 && userApi.validateUserExists(creatorId)) {
             eventRepository.save(toSave);
         } else {

@@ -4,6 +4,8 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.7"
 	id("com.gorylenko.gradle-git-properties") version "2.5.3"
 	id("com.google.protobuf") version "0.9.5"
+	id("org.springframework.cloud.contract") version "4.3.0"
+	id("maven-publish")
 }
 
 gitProperties {
@@ -91,12 +93,21 @@ dependencies {
 	testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner")
 	testImplementation("io.projectreactor:reactor-core")
 
+	testImplementation("io.rest-assured:rest-assured")
+	testImplementation("org.springframework.cloud:spring-cloud-starter-contract-verifier")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
+}
+
+contracts {
+	setTestFramework("JUNIT5")
+	setPackageWithBaseClasses("ua.edu.ukma.event_management_micro.main.contracts")
+	setBaseClassForTests("ua.edu.ukma.event_management_micro.main.contracts.MainBase")
 }
 
 dependencyManagement {
@@ -106,6 +117,13 @@ dependencyManagement {
 	}
 }
 
+publishing {
+	publications {
+		create<MavenPublication>("stubs") {
+			artifact(tasks.named("verifierStubsJar"))
+		}
+	}
+}
 
 tasks.withType<Test> {
 	useJUnitPlatform()
