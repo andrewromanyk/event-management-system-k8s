@@ -1,6 +1,5 @@
 package ua.edu.ukma.event_management_micro.building;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +13,6 @@ import java.util.*;
 public class BuildingControllerApi {
 
     private BuildingService buildingService;
-
-    @Autowired
-    public void setModelMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
 
     @Autowired
     public void setBuildingService(BuildingService buildingService) {
