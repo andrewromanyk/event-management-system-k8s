@@ -24,8 +24,8 @@ Contract.make {
                 numberOfTickets: 100,
                 minAgeRestriction: 18,
                 price: 50.0,
-                dateTimeStart: $(producer(isoDateTime())),
-                dateTimeEnd: $(producer(isoDateTime()))
+                dateTimeStart: $(c("2025-11-27T10:00:00"), p(regex('^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?$'))),
+                dateTimeEnd:   $(c("2025-11-27T12:00:00"), p(regex('^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?$')))
         ])
     }
 }
