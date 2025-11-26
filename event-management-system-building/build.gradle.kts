@@ -92,7 +92,7 @@ dependencyManagement {
 
 contracts {
 	setTestFramework("JUNIT5")
-//	setPackageWithBaseClasses("ua.edu.ukma.event_management_micro.building.contracts")
+	setPackageWithBaseClasses("ua.edu.ukma.event_management_micro.building.contracts")
 	setBaseClassForTests("ua.edu.ukma.event_management_micro.building.contracts.BuildingBase")
 }
 

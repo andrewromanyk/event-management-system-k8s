@@ -8,9 +8,6 @@ Contract.make {
     request {
         method GET()
         url("/api/user/user")
-        headers {
-            contentType(applicationJson())
-        }
     }
 
     response {

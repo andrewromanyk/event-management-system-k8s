@@ -106,7 +106,6 @@ dependencies {
 
 contracts {
 	setTestFramework("JUNIT5")
-	setPackageWithBaseClasses("ua.edu.ukma.event_management_micro.main.contracts")
 	setBaseClassForTests("ua.edu.ukma.event_management_micro.main.contracts.MainBase")
 }
 

@@ -8,9 +8,6 @@ Contract.make {
     request {
         method GET()
         url("/api/event/1")
-        headers {
-            contentType(applicationJson())
-        }
     }
 
     response {
@@ -27,8 +24,8 @@ Contract.make {
                 numberOfTickets: 100,
                 minAgeRestriction: 18,
                 price: 50.0,
-                dateTimeStart: $(producer(regex("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?"))),
-                dateTimeEnd: $(producer(regex("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?")))
+                dateTimeStart: $(producer(isoDateTime())),
+                dateTimeEnd: $(producer(isoDateTime()))
         ])
     }
 }
